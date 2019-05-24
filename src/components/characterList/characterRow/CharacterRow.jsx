@@ -5,16 +5,17 @@ import SurpriseDetail from './surpriseDetail/SurpriseDetail';
 
 /**
  * A row containing the data for a character.
+ * @return {React.Component}
  */
 const CharacterRow = () => {
-    return (
-        <>
-            <div>CharacterRow</div>
-            <CharacterStatInput />
-            <RollDiceButton />
-            <SurpriseDetail />
-        </>
-    )
+  return (
+    <>
+      <div>CharacterRow</div>
+      <CharacterStatInput />
+      <RollDiceButton />
+      <SurpriseDetail />
+    </>
+  );
 };
 
 export default CharacterRow;
