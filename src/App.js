@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="ld">
+      <Container maxWidth="xl">
         <CharacterList />
       </Container>
     </>

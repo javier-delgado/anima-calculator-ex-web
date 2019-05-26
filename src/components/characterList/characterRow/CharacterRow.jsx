@@ -16,9 +16,9 @@ const CharacterRow = () => {
         <TableCell> {/* Name */}
           <TextField />
         </TableCell>
-        <TableCell><CharacterStatInput /></TableCell> {/* InitiativeRoll */}
-        <TableCell><CharacterStatInput /></TableCell> {/* BaseInitiative */}
-        <TableCell><CharacterStatInput /></TableCell> {/* InitiativeFumble */}
+        <TableCell><CharacterStatInput initialStatValue={0} /></TableCell> {/* InitiativeRoll */}
+        <TableCell><CharacterStatInput initialStatValue={0} /></TableCell> {/* BaseInitiative */}
+        <TableCell><CharacterStatInput initialStatValue={0} /></TableCell> {/* InitiativeFumble */}
         <TableCell><Checkbox /></TableCell> {/* Enemy */}
         <TableCell><Checkbox /></TableCell> {/* Uroboros */}
         <TableCell><SurpriseDetail /></TableCell> {/* Surprise */}
