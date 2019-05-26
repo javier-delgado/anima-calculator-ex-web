@@ -1,4 +1,5 @@
 import React from 'react';
+import {TextField} from '@material-ui/core';
 
 /**
  * An input for the user to type a stat like initiative, Attack, Defense, etc.
@@ -7,7 +8,7 @@ import React from 'react';
  */
 const CharacterStatInput = () => {
   return (
-    <div>character stat input</div>
+    <TextField />
   );
 };
 
