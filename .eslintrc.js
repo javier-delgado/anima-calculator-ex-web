@@ -22,6 +22,9 @@ module.exports = {
         "react"
     ],
     "rules": {
-        "require-jsdoc": "off"
+        "require-jsdoc": "off",
+        "max-len": ["warn", {
+            "code": 120
+        }]
     }
 };

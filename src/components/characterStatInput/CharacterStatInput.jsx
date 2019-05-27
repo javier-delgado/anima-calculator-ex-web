@@ -8,12 +8,14 @@ import PropTypes from 'prop-types';
  * Allows for simple math operators within the input (plus and minus)
  * @return {React.Component}
  */
-const CharacterStatInput = ({initialStatValue}) => {
-  const [statValue, setStatValue] = useState(initialStatValue);
+const CharacterStatInput = ({initialStatValue, onStatChange}) => {
+  const [statText, setStatText] = useState(initialStatValue);
 
   const handleChange = (event) => {
-    setStatValue(addbits(event.target.value));
-    console.log(statValue);
+    const cleanText = removeUnwantedChars(event.target.value);
+    setStatText(cleanText);
+    const sum = addbits(cleanText);
+    onStatChange(sum);
   };
 
   /**
@@ -26,23 +28,24 @@ const CharacterStatInput = ({initialStatValue}) => {
 
     try {
       // eslint-disable-next-line
-      return (s.replace(/\s/g, '').match(/[+\-]?([0-9\.]+)/g) || [])
-          .reduce((sum, value) => {
-            return parseFloat(sum) + parseFloat(value);
-          });
+      const numbers = (s.replace(/\s/g, '').match(/[+\-]?([0-9\.]+)/g) || []).map((item) => parseFloat(item));
+      return numbers.reduce((sum, value) => sum + value);
     } catch (typeError) {
       console.error(typeError);
       return 0;
     }
   };
 
+  const removeUnwantedChars = (s) => s.replace(/[^\d+-]/g, '');
+
   return (
-    <TextField onChange={handleChange} type={'number'} />
+    <TextField onChange={handleChange} value={statText} />
   );
 };
 
 CharacterStatInput.propTypes = {
   initialStatValue: PropTypes.number.isRequired,
+  onStatChange: PropTypes.func,
 };
 
 export default CharacterStatInput;

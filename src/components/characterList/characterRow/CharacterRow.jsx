@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import RollDiceButton from '../../rollDiceButton/RollDiceButton';
 import SurpriseDetail from './surpriseDetail/SurpriseDetail';
@@ -9,20 +9,76 @@ import {TableRow, TableCell, TextField, Checkbox} from '@material-ui/core';
  * @return {React.Component}
  */
 const CharacterRow = () => {
+  const [character, setCharacter] = useState({
+    name: '',
+    baseInitiative: 0,
+    enemy: false,
+    uroboros: false,
+  });
+  const [initiativeData, setInitiativeData] = useState({
+    order: 1,
+    initiativeRoll: 0,
+    initiativeFumble: 0,
+    surprise: {todo: 'think of the structure here'},
+  });
+
+  const handleStatChange = (whichState, name) => (value) => {
+    console.log(value);
+    if (whichState === 'character') {
+      setCharacter({...character, [name]: value});
+    } else if (whichState === 'initiativeData') {
+      setInitiativeData({...initiativeData, [name]: value});
+    }
+  };
+
+  const handleCharacterChange = (name) => (event) => {
+    setCharacter({...character,
+      [name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value});
+  };
+
+  const totalInitiative = () => {
+    return character.baseInitiative + initiativeData.initiativeRoll - initiativeData.initiativeFumble;
+  };
+
   return (
     <>
       <TableRow>
-        <TableCell>1.</TableCell> {/* Order */}
-        <TableCell> {/* Name */}
-          <TextField />
+        <TableCell> {/* Order */}
+          {initiativeData.order}
         </TableCell>
-        <TableCell><CharacterStatInput initialStatValue={0} /></TableCell> {/* InitiativeRoll */}
-        <TableCell><CharacterStatInput initialStatValue={0} /></TableCell> {/* BaseInitiative */}
-        <TableCell><CharacterStatInput initialStatValue={0} /></TableCell> {/* InitiativeFumble */}
-        <TableCell><Checkbox /></TableCell> {/* Enemy */}
-        <TableCell><Checkbox /></TableCell> {/* Uroboros */}
-        <TableCell><SurpriseDetail /></TableCell> {/* Surprise */}
-        <TableCell><RollDiceButton /></TableCell> {/* RollInitiativeButton */}
+        <TableCell> {/* Name */}
+          <TextField value={character.name}
+            onChange={handleCharacterChange('name')}/>
+        </TableCell>
+        <TableCell> {/* TotalInitiative */}
+          {totalInitiative()}
+        </TableCell>
+        <TableCell> {/* InitiativeRoll */}
+          <CharacterStatInput initialStatValue={initiativeData.initiativeRoll}
+            onStatChange={handleStatChange('initiativeData', 'initiativeRoll')}/>
+        </TableCell>
+        <TableCell> {/* BaseInitiative */}
+          <CharacterStatInput initialStatValue={character.baseInitiative}
+            onStatChange={handleStatChange('character', 'baseInitiative')}/>
+        </TableCell>
+        <TableCell> {/* InitiativeFumble */}
+          <CharacterStatInput initialStatValue={initiativeData.initiativeFumble}
+            onStatChange={handleStatChange('initiativeData', 'initiativeFumble')}/>
+        </TableCell>
+        <TableCell> {/* Enemy */}
+          <Checkbox checked={character.enemy}
+            onChange={handleCharacterChange('enemy')}/>
+        </TableCell>
+        <TableCell> {/* Uroboros */}
+          <Checkbox checked={character.uroboros}
+            onChange={handleCharacterChange('uroboros')}/>
+        </TableCell>
+        <TableCell> {/* Surprise */}
+          <SurpriseDetail />
+        </TableCell>
+        <TableCell> {/* RollInitiativeButton */}
+          <RollDiceButton />
+        </TableCell>
       </TableRow>
     </>
   );

@@ -34,6 +34,7 @@ const CharacterList = () => {
             <TableRow>
               <TableCell>Ord.</TableCell>
               <TableCell>Nombre</TableCell>
+              <TableCell>Iniciativa total</TableCell>
               <TableCell>Tirada</TableCell>
               <TableCell>Base</TableCell>
               <TableCell>Pifia</TableCell>
