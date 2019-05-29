@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
-import {TextField} from '@material-ui/core';
-import {isEmpty} from 'lodash';
+import React, { useState } from 'react';
+import { TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 /**
@@ -8,7 +7,10 @@ import PropTypes from 'prop-types';
  * Allows for simple math operators within the input (plus and minus)
  * @return {React.Component}
  */
-const CharacterStatInput = ({initialStatValue, onStatChange}) => {
+const CharacterStatInput = ({ initialStatValue, onStatChange }) => {
+  const UNSIGNED_NUMBER_REGEX = /[+\-]?([0-9\.]+)/g; // eslint-disable-line
+  const NUMBERS_AND_OPERANDS_REGEX = /[^\d+-]/g; // eslint-disable-line
+
   const [statText, setStatText] = useState(initialStatValue);
 
   const handleChange = (event) => {
@@ -24,23 +26,25 @@ const CharacterStatInput = ({initialStatValue, onStatChange}) => {
    * @return {Number} Result of the operation
    */
   const addbits = (s) => {
-    if (isEmpty(s)) return 0;
-
     try {
-      // eslint-disable-next-line
-      const numbers = (s.replace(/\s/g, '').match(/[+\-]?([0-9\.]+)/g) || []).map((item) => parseFloat(item));
-      return numbers.reduce((sum, value) => sum + value);
+      return (s.match(UNSIGNED_NUMBER_REGEX) || [])
+        .map(item => parseFloat(item))
+        .reduce((sum, value) => sum + value, 0);
     } catch (typeError) {
       console.error(typeError);
       return 0;
     }
   };
 
-  const removeUnwantedChars = (s) => s.replace(/[^\d+-]/g, '');
+  const removeUnwantedChars = s => s.replace(NUMBERS_AND_OPERANDS_REGEX, '');
 
   return (
     <TextField onChange={handleChange} value={statText} />
   );
+};
+
+CharacterStatInput.defaultProps = {
+  onStatChange: () => {},
 };
 
 CharacterStatInput.propTypes = {

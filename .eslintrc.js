@@ -4,7 +4,7 @@ module.exports = {
         "es6": true
     },
     "extends": [
-        "google",
+        "airbnb",
         "plugin:react/recommended"
     ],
     "globals": {
@@ -25,6 +25,13 @@ module.exports = {
         "require-jsdoc": "off",
         "max-len": ["warn", {
             "code": 120
+        }],
+        "no-use-before-define": "off",
+        "no-console": ["error", {
+            "allow": ["warn", "error"]
+        }],
+        "object-curly-newline": ["error", {
+            "ImportDeclaration": "never",
         }]
     }
 };
