@@ -24,7 +24,6 @@ const CharacterRow = () => {
   });
 
   const handleStatChange = (whichState, name) => (value) => {
-    console.log(value);
     if (whichState === 'character') {
       setCharacter({ ...character, [name]: value });
     } else if (whichState === 'initiativeData') {
@@ -39,7 +38,13 @@ const CharacterRow = () => {
     });
   };
 
-  const totalInitiative = () => character.baseInitiative + initiativeData.initiativeRoll - initiativeData.initiativeFumble;
+  const handleInitiativeRolled = (diceRoll) => {
+    const { finalResult, fumbleLevel } = diceRoll;
+    setInitiativeData({ ...initiativeData, initiativeRoll: finalResult, initiativeFumble: fumbleLevel });
+  };
+
+  const totalInitiative = () => character.baseInitiative
+    + initiativeData.initiativeRoll - initiativeData.initiativeFumble;
 
   return (
     <>
@@ -100,7 +105,7 @@ const CharacterRow = () => {
         </TableCell>
         {/* RollInitiativeButton */}
         <TableCell>
-          <RollDiceButton />
+          <RollDiceButton onDiceRolled={handleInitiativeRolled} />
         </TableCell>
       </TableRow>
     </>

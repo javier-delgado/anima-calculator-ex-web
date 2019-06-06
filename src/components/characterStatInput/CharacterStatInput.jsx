@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
@@ -11,7 +11,11 @@ const CharacterStatInput = ({ initialStatValue, onStatChange }) => {
   const UNSIGNED_NUMBER_REGEX = /[+\-]?([0-9\.]+)/g; // eslint-disable-line
   const NUMBERS_AND_OPERANDS_REGEX = /[^\d+-]/g; // eslint-disable-line
 
-  const [statText, setStatText] = useState(initialStatValue);
+  const [statText, setStatText] = useState(initialStatValue === 0 ? '' : initialStatValue);
+
+  useEffect(() => {
+    setStatText(initialStatValue === 0 ? '' : initialStatValue);
+  }, [initialStatValue]);
 
   const handleChange = (event) => {
     const cleanText = removeUnwantedChars(event.target.value);

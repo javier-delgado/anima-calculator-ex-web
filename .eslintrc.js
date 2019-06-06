@@ -32,6 +32,9 @@ module.exports = {
         }],
         "object-curly-newline": ["error", {
             "ImportDeclaration": "never",
+        }],
+        "no-underscore-dangle": ["error", {
+            "allowAfterThis": true
         }]
     }
 };

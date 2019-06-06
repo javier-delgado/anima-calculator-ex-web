@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import DiceRoller from './domain/diceRoller';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -18,11 +20,16 @@ const useStyles = makeStyles(theme => ({
  * Allows rolling a d100. Several configurations can be used.
  * @return {React.Component}
  */
-const RollDiceButton = () => {
+const RollDiceButton = ({ onDiceRolled }) => {
   const classes = useStyles();
+  const diceRoller = new DiceRoller();
+
+  const handleClick = () => {
+    onDiceRolled(diceRoller.perform());
+  };
 
   return (
-    <Button variant="contained" color="primary" className={classes.button}>
+    <Button variant="contained" color="primary" className={classes.button} onClick={handleClick}>
       Tirar iniciativa
       <svg xmlns="http://www.w3.org/2000/svg" className={classes.icon} viewBox="0 0 512 512">
         <g transform="translate(0,0)" style={{ touchAction: 'none' }}>
@@ -35,6 +42,14 @@ const RollDiceButton = () => {
       </svg>
     </Button>
   );
+};
+
+RollDiceButton.defaultProps = {
+  onDiceRolled: () => { },
+};
+
+RollDiceButton.propTypes = {
+  onDiceRolled: PropTypes.func,
 };
 
 export default RollDiceButton;
