@@ -3,16 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import DiceRoller from './domain/diceRoller';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   button: {
-    margin: theme.spacing(1),
+    minWidth: 0,
   },
   icon: {
-    margin: theme.spacing(1),
-    height: 32,
-    width: 32,
+    height: 26,
+    width: 26,
   },
 }));
 
@@ -20,17 +18,11 @@ const useStyles = makeStyles(theme => ({
  * Allows rolling a d100. Several configurations can be used.
  * @return {React.Component}
  */
-const RollDiceButton = ({ onDiceRolled }) => {
+const RollDiceButton = ({ onClick }) => {
   const classes = useStyles();
-  const diceRoller = new DiceRoller();
-
-  const handleClick = () => {
-    onDiceRolled(diceRoller.perform());
-  };
 
   return (
-    <Button variant="contained" color="primary" className={classes.button} onClick={handleClick}>
-      Tirar iniciativa
+    <Button variant="contained" color="primary" className={classes.button} size="small" onClick={onClick}>
       <svg xmlns="http://www.w3.org/2000/svg" className={classes.icon} viewBox="0 0 512 512">
         <g transform="translate(0,0)" style={{ touchAction: 'none' }}>
           <path
@@ -45,11 +37,11 @@ const RollDiceButton = ({ onDiceRolled }) => {
 };
 
 RollDiceButton.defaultProps = {
-  onDiceRolled: () => { },
+  onClick: () => { },
 };
 
 RollDiceButton.propTypes = {
-  onDiceRolled: PropTypes.func,
+  onClick: PropTypes.func,
 };
 
 export default RollDiceButton;

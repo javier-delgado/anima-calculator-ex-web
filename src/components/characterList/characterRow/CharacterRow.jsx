@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { TableRow, TableCell, TextField, Checkbox } from '@material-ui/core';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
@@ -9,49 +10,19 @@ import SurpriseDetail from './surpriseDetail/SurpriseDetail';
  * A row containing the data for a character.
  * @return {React.Component}
  */
-const CharacterRow = () => {
-  const [character, setCharacter] = useState({
-    name: '',
-    baseInitiative: 0,
-    enemy: false,
-    uroboros: false,
-  });
-  const [initiativeData, setInitiativeData] = useState({
-    order: 1,
-    initiativeRoll: 0,
-    initiativeFumble: 0,
-    surprise: { todo: 'think of the structure here' },
-  });
-
-  const handleStatChange = (whichState, name) => (value) => {
-    if (whichState === 'character') {
-      setCharacter({ ...character, [name]: value });
-    } else if (whichState === 'initiativeData') {
-      setInitiativeData({ ...initiativeData, [name]: value });
-    }
-  };
+const CharacterRow = ({ character, onUpdate, onInitiativeRollClick, order }) => {
+  const handleStatChange = name => value => onUpdate({ [name]: value });
 
   const handleCharacterChange = name => (event) => {
-    setCharacter({
-      ...character,
-      [name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value,
-    });
+    onUpdate({ [name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value });
   };
-
-  const handleInitiativeRolled = (diceRoll) => {
-    const { finalResult, fumbleLevel } = diceRoll;
-    setInitiativeData({ ...initiativeData, initiativeRoll: finalResult, initiativeFumble: fumbleLevel });
-  };
-
-  const totalInitiative = () => character.baseInitiative
-    + initiativeData.initiativeRoll - initiativeData.initiativeFumble;
 
   return (
     <>
       <TableRow>
         {/* Order */}
         <TableCell>
-          {initiativeData.order}
+          {order}
         </TableCell>
         {/* Name */}
         <TableCell>
@@ -62,27 +33,27 @@ const CharacterRow = () => {
         </TableCell>
         {/* TotalInitiative */}
         <TableCell>
-          {totalInitiative()}
+          {character.totalInitiative}
         </TableCell>
         {/* InitiativeRoll */}
         <TableCell>
           <CharacterStatInput
-            initialStatValue={initiativeData.initiativeRoll}
-            onStatChange={handleStatChange('initiativeData', 'initiativeRoll')}
+            initialStatValue={character.initiativeRoll}
+            onStatChange={handleStatChange('initiativeRoll')}
           />
         </TableCell>
         {/* BaseInitiative */}
         <TableCell>
           <CharacterStatInput
             initialStatValue={character.baseInitiative}
-            onStatChange={handleStatChange('character', 'baseInitiative')}
+            onStatChange={handleStatChange('baseInitiative')}
           />
         </TableCell>
         {/* InitiativeFumble */}
         <TableCell>
           <CharacterStatInput
-            initialStatValue={initiativeData.initiativeFumble}
-            onStatChange={handleStatChange('initiativeData', 'initiativeFumble')}
+            initialStatValue={character.initiativeFumble}
+            onStatChange={handleStatChange('initiativeFumble')}
           />
         </TableCell>
         {/* Enemy */}
@@ -105,11 +76,26 @@ const CharacterRow = () => {
         </TableCell>
         {/* RollInitiativeButton */}
         <TableCell>
-          <RollDiceButton onDiceRolled={handleInitiativeRolled} />
+          <RollDiceButton onClick={onInitiativeRollClick} />
         </TableCell>
       </TableRow>
     </>
   );
+};
+
+CharacterRow.propTypes = {
+  character: PropTypes.shape({
+    name: PropTypes.string,
+    baseInitiative: PropTypes.number,
+    enemy: PropTypes.bool,
+    uroboros: PropTypes.bool,
+    order: PropTypes.number,
+    initiativeRoll: PropTypes.number,
+    initiativeFumble: PropTypes.number,
+  }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onInitiativeRollClick: PropTypes.func.isRequired,
+  order: PropTypes.number.isRequired,
 };
 
 export default CharacterRow;

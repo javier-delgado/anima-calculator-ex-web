@@ -1,15 +1,32 @@
-import DiceRoll from '../models/diceRoll';
-import DiceRollConfig from '../models/diceRollConfig';
-import { randomIntegerBetween } from '../../../functions';
+import { randomIntegerBetween } from '../functions';
+
+const DEFAULT_DICE_ROLL_CONFIG = {
+  openRollEnabled: true,
+  fumbleEnabled: true,
+  palindromeEnabled: false,
+  fumbleMaxValue: 3,
+  openRollMinValue: 90,
+};
+
+const DEFAULT_ROLL = {
+  finalResult: 0,
+  openRollCount: 0,
+  results: [],
+  fumbleLevel: 0,
+  confirmedPalindromeCount: 0,
+  tag: null,
+  didFumble: false,
+  didOpenRoll: false,
+  didPalindromeRoll: false,
+};
 
 class DiceRoller {
-  constructor(defaultRollConfig = new DiceRollConfig()) {
-    this.defaultRollConfig = defaultRollConfig;
-    this.roll = new DiceRoll();
+  constructor() {
+    this.defaultRollConfig = { ...DEFAULT_DICE_ROLL_CONFIG };
   }
 
   perform() {
-    this.roll = new DiceRoll();
+    this.roll = { ...DEFAULT_ROLL };
     this.doRoll();
     return this.roll;
   }
