@@ -112,7 +112,8 @@ const CharacterList = () => {
             <TableCell>Pifia</TableCell>
             <TableCell>Enemigo</TableCell>
             <TableCell>Uroboros</TableCell>
-            <TableCell>Sorpresa</TableCell>
+            <TableCell>Sorprendido por</TableCell>
+            <TableCell>Sorprende a</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
@@ -122,6 +123,7 @@ const CharacterList = () => {
               key={character.uid}
               order={idx + 1}
               character={character}
+              characters={characters}
               onUpdate={handleCharacterUpdate(character)}
               onInitiativeRollClick={handleInitiativeRollClick(character)}
             />

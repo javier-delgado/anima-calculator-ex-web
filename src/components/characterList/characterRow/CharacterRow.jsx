@@ -4,13 +4,14 @@ import { TableRow, TableCell, TextField, Checkbox } from '@material-ui/core';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import RollDiceButton from '../../rollDiceButton/RollDiceButton';
-import SurpriseDetail from './surpriseDetail/SurpriseDetail';
+import Surprises from './surprises/Surprises';
+import SurprisedBy from './surprisedBy/SurprisedBy';
 
 /**
  * A row containing the data for a character.
  * @return {React.Component}
  */
-const CharacterRow = ({ character, onUpdate, onInitiativeRollClick, order }) => {
+const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRollClick }) => {
   const handleStatChange = name => value => onUpdate({ [name]: value });
 
   const handleCharacterChange = name => (event) => {
@@ -70,9 +71,19 @@ const CharacterRow = ({ character, onUpdate, onInitiativeRollClick, order }) => 
             onChange={handleCharacterChange('uroboros')}
           />
         </TableCell>
-        {/* Surprise */}
+        {/* Surprised by */}
         <TableCell>
-          <SurpriseDetail />
+          <SurprisedBy
+            character={character}
+            otherCharacters={characters.filter(char => char.uid !== character.uid)}
+          />
+        </TableCell>
+        {/* Surprises */}
+        <TableCell>
+          <Surprises
+            character={character}
+            otherCharacters={characters.filter(char => char.uid !== character.uid)}
+          />
         </TableCell>
         {/* RollInitiativeButton */}
         <TableCell>
@@ -83,19 +94,23 @@ const CharacterRow = ({ character, onUpdate, onInitiativeRollClick, order }) => 
   );
 };
 
+const characterShape = PropTypes.shape({
+  name: PropTypes.string,
+  baseInitiative: PropTypes.number,
+  enemy: PropTypes.bool,
+  uroboros: PropTypes.bool,
+  order: PropTypes.number,
+  initiativeRoll: PropTypes.number,
+  initiativeFumble: PropTypes.number,
+  totalInitiative: PropTypes.number,
+});
+
 CharacterRow.propTypes = {
-  character: PropTypes.shape({
-    name: PropTypes.string,
-    baseInitiative: PropTypes.number,
-    enemy: PropTypes.bool,
-    uroboros: PropTypes.bool,
-    order: PropTypes.number,
-    initiativeRoll: PropTypes.number,
-    initiativeFumble: PropTypes.number,
-  }).isRequired,
+  character: characterShape.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onInitiativeRollClick: PropTypes.func.isRequired,
   order: PropTypes.number.isRequired,
+  characters: PropTypes.arrayOf(characterShape).isRequired,
 };
 
 export default CharacterRow;
