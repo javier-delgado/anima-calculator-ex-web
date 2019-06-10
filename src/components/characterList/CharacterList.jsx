@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,48 +22,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EMPTY_CHARACTER = {
-  uid: Date.now(),
-  name: '',
-  baseInitiative: 0,
-  enemy: false,
-  uroboros: false,
-  order: 1,
-  initiativeRoll: 0,
-  initiativeFumble: 0,
-  totalInitiative: 0,
-  surprise: { todo: 'think of the structure here' },
-};
-
 const diceRoller = new DiceRoller();
 
 /**
  * A list of character rows.  Used to keep track of initiative and other stats.
  * @return {React.Component}
  */
-const CharacterList = () => {
-  const [characters, setCharacters] = useState([{ ...EMPTY_CHARACTER }]);
-
+const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacters }) => {
   const classes = useStyles();
 
-  const handleNewCharacter = () => setCharacters([
-    ...characters,
-    { ...EMPTY_CHARACTER, uid: Date.now() },
-  ]);
+  const handleNewCharacter = () => addCharacter();
 
-  const handleSort = () => setCharacters([...sortCharacters(characters)]);
+  const handleSort = () => sortCharacters();
 
   const handleRollForAll = () => {
-    const updatedCharacters = [];
+    // const updatedCharacters = [];
 
-    characters.forEach((character) => {
-      const { finalResult, fumbleLevel } = diceRoller.perform();
-      updatedCharacters.push(getUpdatedCharacter(character, {
-        initiativeRoll: finalResult, initiativeFumble: -fumbleLevel,
-      }));
-    });
+    // characters.forEach((character) => {
+    //   const { finalResult, fumbleLevel } = diceRoller.perform();
+    //   updatedCharacters.push(getUpdatedCharacter(character, {
+    //     initiativeRoll: finalResult, initiativeFumble: -fumbleLevel,
+    //   }));
+    // });
 
-    setCharacters(sortCharacters(updatedCharacters));
+    // setCharacters(sortCharacters(updatedCharacters));
   };
 
   const handleInitiativeRollClick = originalCharacter => () => {
@@ -73,26 +56,9 @@ const CharacterList = () => {
     });
   };
 
-  const handleCharacterUpdate = originalCharacter => changes => updateCharacter(originalCharacter, changes);
+  const handleCharacterUpdate = originalCharacter => changes => updateCharacter(originalCharacter.uid, changes);
 
-  const updateCharacter = (originalCharacter, changes) => {
-    setCharacters([
-      ...characters.map(character => (
-        character.uid === originalCharacter.uid ? getUpdatedCharacter(character, changes) : character
-      )),
-    ]);
-  };
-
-  const getUpdatedCharacter = (character, changes) => {
-    const updatedCharacter = { ...character, ...changes };
-    updatedCharacter.totalInitiative = totalInitiative(updatedCharacter);
-    return updatedCharacter;
-  };
-
-  const sortCharacters = list => list.sort((char1, char2) => -(char1.totalInitiative - char2.totalInitiative));
-
-  const totalInitiative = character => character.baseInitiative
-    + character.initiativeRoll + character.initiativeFumble;
+  //const sortCharacters = list => list.sort((char1, char2) => -(char1.totalInitiative - char2.totalInitiative));
 
   return (
     <Paper className={classes.root}>
@@ -132,6 +98,24 @@ const CharacterList = () => {
       </Table>
     </Paper>
   );
+};
+
+const characterShape = PropTypes.shape({
+  name: PropTypes.string,
+  baseInitiative: PropTypes.number,
+  enemy: PropTypes.bool,
+  uroboros: PropTypes.bool,
+  order: PropTypes.number,
+  initiativeRoll: PropTypes.number,
+  initiativeFumble: PropTypes.number,
+  totalInitiative: PropTypes.number,
+});
+
+CharacterList.propTypes = {
+  characters: PropTypes.arrayOf(characterShape).isRequired,
+  addCharacter: PropTypes.func.isRequired,
+  updateCharacter: PropTypes.func.isRequired,
+  sortCharacters: PropTypes.func.isRequired,
 };
 
 export default CharacterList;

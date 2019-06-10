@@ -1,0 +1,2 @@
+export const ADD_CHARACTER = 'ADD_CHARACTER';
+export const UPDATE_CHARACTER = 'UPDATE_CHARACTER';
