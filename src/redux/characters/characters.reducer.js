@@ -1,4 +1,4 @@
-import { ADD_CHARACTER, UPDATE_CHARACTER } from './characters.constants';
+import { ADD_CHARACTER, UPDATE_CHARACTER, SORT_CHARACTERS, ROLL_INITIATIVE_FOR_ALL } from './characters.constants';
 
 const EMPTY_CHARACTER = {
   uid: Date.now(),
@@ -24,22 +24,17 @@ const charactersReducer = (state = initialState, action) => {
       ]);
     case UPDATE_CHARACTER:
       return ([
-        ...state.characters.map(character => (
-          character.uid === action.uid ? getUpdatedCharacter(character, action.changes) : character
+        ...state.map(character => (
+          character.uid === action.uid ? action.updatedCharacter : character
         )),
       ]);
+    case SORT_CHARACTERS:
+      return action.sorted;
+    case ROLL_INITIATIVE_FOR_ALL:
+      return action.charactersWithNewInitiative;
     default:
       return state;
   }
 };
-
-const getUpdatedCharacter = (character, changes) => {
-  const updatedCharacter = { ...character, ...changes };
-  updatedCharacter.totalInitiative = totalInitiative(updatedCharacter);
-  return updatedCharacter;
-};
-
-const totalInitiative = character => character.baseInitiative
-  + character.initiativeRoll + character.initiativeFumble;
 
 export default charactersReducer;

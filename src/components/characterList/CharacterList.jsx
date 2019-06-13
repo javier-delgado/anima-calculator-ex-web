@@ -28,25 +28,14 @@ const diceRoller = new DiceRoller();
  * A list of character rows.  Used to keep track of initiative and other stats.
  * @return {React.Component}
  */
-const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacters }) => {
+const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacters, rollInitiativeForAll }) => {
   const classes = useStyles();
 
   const handleNewCharacter = () => addCharacter();
 
-  const handleSort = () => sortCharacters();
+  const handleSort = () => sortCharacters(characters);
 
-  const handleRollForAll = () => {
-    // const updatedCharacters = [];
-
-    // characters.forEach((character) => {
-    //   const { finalResult, fumbleLevel } = diceRoller.perform();
-    //   updatedCharacters.push(getUpdatedCharacter(character, {
-    //     initiativeRoll: finalResult, initiativeFumble: -fumbleLevel,
-    //   }));
-    // });
-
-    // setCharacters(sortCharacters(updatedCharacters));
-  };
+  const handleRollForAll = () => rollInitiativeForAll(characters);
 
   const handleInitiativeRollClick = originalCharacter => () => {
     const { finalResult, fumbleLevel } = diceRoller.perform();
@@ -56,9 +45,7 @@ const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacte
     });
   };
 
-  const handleCharacterUpdate = originalCharacter => changes => updateCharacter(originalCharacter.uid, changes);
-
-  //const sortCharacters = list => list.sort((char1, char2) => -(char1.totalInitiative - char2.totalInitiative));
+  const handleCharacterUpdate = originalCharacter => changes => updateCharacter(originalCharacter, changes);
 
   return (
     <Paper className={classes.root}>
@@ -116,6 +103,7 @@ CharacterList.propTypes = {
   addCharacter: PropTypes.func.isRequired,
   updateCharacter: PropTypes.func.isRequired,
   sortCharacters: PropTypes.func.isRequired,
+  rollInitiativeForAll: PropTypes.func.isRequired,
 };
 
 export default CharacterList;
