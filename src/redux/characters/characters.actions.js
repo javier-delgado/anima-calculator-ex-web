@@ -1,10 +1,16 @@
-import { ADD_CHARACTER, UPDATE_CHARACTER, SORT_CHARACTERS, ROLL_INITIATIVE_FOR_ALL } from './characters.constants';
+import { ADD_CHARACTER,
+  UPDATE_CHARACTER,
+  SORT_CHARACTERS,
+  ROLL_INITIATIVE_FOR_ALL,
+  REMOVE_CHARACTER } from './characters.constants';
 import DiceRoller from '../../domain/diceRoller';
 
 const diceRoller = new DiceRoller();
 
 // <ACTIONS>
 export const addCharacter = character => ({ type: ADD_CHARACTER, character });
+
+export const removeCharacter = character => ({ type: REMOVE_CHARACTER, character });
 
 export const updateCharacter = (character, changes) => (
   { type: UPDATE_CHARACTER, uid: character.uid, updatedCharacter: getUpdatedCharacter(character, changes) }

@@ -28,14 +28,25 @@ const diceRoller = new DiceRoller();
  * A list of character rows.  Used to keep track of initiative and other stats.
  * @return {React.Component}
  */
-const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacters, rollInitiativeForAll }) => {
+const CharacterList = ({
+  characters,
+  addCharacter,
+  updateCharacter,
+  sortCharacters,
+  rollInitiativeForAll,
+  removeCharacter,
+}) => {
   const classes = useStyles();
 
   const handleNewCharacter = () => addCharacter();
 
+  const handleRemoveCharacterClick = character => () => removeCharacter(character);
+
   const handleSort = () => sortCharacters(characters);
 
   const handleRollForAll = () => rollInitiativeForAll(characters);
+
+  const handleCharacterUpdate = originalCharacter => changes => updateCharacter(originalCharacter, changes);
 
   const handleInitiativeRollClick = originalCharacter => () => {
     const { finalResult, fumbleLevel } = diceRoller.perform();
@@ -44,8 +55,6 @@ const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacte
       initiativeFumble: -fumbleLevel,
     });
   };
-
-  const handleCharacterUpdate = originalCharacter => changes => updateCharacter(originalCharacter, changes);
 
   return (
     <Paper className={classes.root}>
@@ -59,14 +68,22 @@ const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacte
           <TableRow>
             <TableCell>Ord.</TableCell>
             <TableCell>Nombre</TableCell>
+            <TableCell>Vida</TableCell>
+            <TableCell>Cansancio</TableCell>
+            <TableCell>Ki</TableCell>
+            <TableCell>Xeon</TableCell>
+            <TableCell>CV</TableCell>
+            <TableCell>Natura</TableCell>
+            <TableCell>Notas</TableCell>
             <TableCell>Iniciativa total</TableCell>
             <TableCell>Tirada</TableCell>
-            <TableCell>Base</TableCell>
+            <TableCell>Turno</TableCell>
             <TableCell>Pifia</TableCell>
             <TableCell>Enemigo</TableCell>
             <TableCell>Uroboros</TableCell>
             <TableCell>Sorprendido por</TableCell>
             <TableCell>Sorprende a</TableCell>
+            <TableCell />
             <TableCell />
           </TableRow>
         </TableHead>
@@ -79,6 +96,7 @@ const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacte
               characters={characters}
               onUpdate={handleCharacterUpdate(character)}
               onInitiativeRollClick={handleInitiativeRollClick(character)}
+              onRemoveCharacterClick={handleRemoveCharacterClick(character)}
             />
           ))}
         </TableBody>
@@ -89,6 +107,13 @@ const CharacterList = ({ characters, addCharacter, updateCharacter, sortCharacte
 
 const characterShape = PropTypes.shape({
   name: PropTypes.string,
+  hp: PropTypes.number,
+  fatigue: PropTypes.number,
+  ki: PropTypes.number,
+  xeon: PropTypes.number,
+  cv: PropTypes.number,
+  natura: PropTypes.string,
+  notes: PropTypes.string,
   baseInitiative: PropTypes.number,
   enemy: PropTypes.bool,
   uroboros: PropTypes.bool,
@@ -104,6 +129,7 @@ CharacterList.propTypes = {
   updateCharacter: PropTypes.func.isRequired,
   sortCharacters: PropTypes.func.isRequired,
   rollInitiativeForAll: PropTypes.func.isRequired,
+  removeCharacter: PropTypes.func.isRequired,
 };
 
 export default CharacterList;

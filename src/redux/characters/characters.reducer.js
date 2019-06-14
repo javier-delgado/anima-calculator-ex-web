@@ -1,8 +1,19 @@
-import { ADD_CHARACTER, UPDATE_CHARACTER, SORT_CHARACTERS, ROLL_INITIATIVE_FOR_ALL } from './characters.constants';
+import { ADD_CHARACTER,
+  UPDATE_CHARACTER,
+  SORT_CHARACTERS,
+  ROLL_INITIATIVE_FOR_ALL,
+  REMOVE_CHARACTER } from './characters.constants';
 
 const EMPTY_CHARACTER = {
   uid: Date.now(),
   name: '',
+  hp: 0,
+  fatigue: 0,
+  ki: 0,
+  xeon: 0,
+  cv: 0,
+  natura: '',
+  notes: '',
   baseInitiative: 0,
   enemy: false,
   uroboros: false,
@@ -21,6 +32,10 @@ const charactersReducer = (state = initialState, action) => {
       return ([
         ...state,
         { ...EMPTY_CHARACTER, uid: Date.now() },
+      ]);
+    case REMOVE_CHARACTER:
+      return ([
+        ...state.filter(character => character.uid !== action.character.uid),
       ]);
     case UPDATE_CHARACTER:
       return ([
