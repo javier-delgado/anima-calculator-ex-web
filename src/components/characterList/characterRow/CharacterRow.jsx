@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { TableRow, TableCell, TextField, Checkbox } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles } from '@material-ui/core/styles';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
-import RollDiceButton from '../../rollDiceButton/RollDiceButton';
 import Surprises from './surprises/Surprises';
 import SurprisedBy from './surprisedBy/SurprisedBy';
+
+const useStyles = makeStyles(() => ({
+  name: {
+    minWidth: 120,
+  },
+  natura: {
+    minWidth: 100,
+  },
+  input: {
+    fontSize: 14,
+  },
+}));
 
 /**
  * A row containing the data for a character.
  * @return {React.Component}
  */
 const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRollClick, onRemoveCharacterClick }) => {
+  const classes = useStyles();
+
   const handleStatChange = name => value => onUpdate({ [name]: value });
 
   const handleCharacterChange = name => (event) => {
@@ -24,121 +38,131 @@ const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRoll
     <>
       <TableRow>
         {/* Order */}
-        <TableCell>
+        <TableCell align="center">
           {order}
         </TableCell>
         {/* Name */}
-        <TableCell>
+        <TableCell align="center">
           <TextField
+            className={classes.name}
             value={character.name}
+            InputProps={{
+              classes: {
+                input: classes.input,
+              },
+            }}
             onChange={handleCharacterChange('name')}
           />
         </TableCell>
         {/* Vida */}
-        <TableCell>
+        <TableCell align="center">
           <CharacterStatInput
             initialStatValue={character.hp}
             onStatChange={handleStatChange('hp')}
           />
         </TableCell>
         {/* Cansancio */}
-        <TableCell>
+        <TableCell align="center">
           <CharacterStatInput
             initialStatValue={character.fatigue}
             onStatChange={handleStatChange('fatigue')}
           />
         </TableCell>
         {/* Ki */}
-        <TableCell>
+        <TableCell align="center">
           <CharacterStatInput
             initialStatValue={character.ki}
             onStatChange={handleStatChange('ki')}
           />
         </TableCell>
         {/* Xeon */}
-        <TableCell>
+        <TableCell align="center">
           <CharacterStatInput
             initialStatValue={character.xeon}
             onStatChange={handleStatChange('xeon')}
           />
         </TableCell>
         {/* CV */}
-        <TableCell>
+        <TableCell align="center">
           <CharacterStatInput
             initialStatValue={character.cv}
             onStatChange={handleStatChange('cv')}
           />
         </TableCell>
         {/* Natura */}
-        <TableCell>
+        <TableCell align="center">
           <TextField
+            className={classes.natura}
             value={character.natura}
+            InputProps={{
+              classes: {
+                input: classes.input,
+              },
+            }}
             onChange={handleCharacterChange('natura')}
           />
         </TableCell>
         {/* Notas */}
-        <TableCell>
+        <TableCell align="center">
           TODO notes
         </TableCell>
         {/* TotalInitiative */}
-        <TableCell>
+        <TableCell align="center">
           {character.totalInitiative}
         </TableCell>
         {/* InitiativeRoll */}
-        <TableCell>
+        <TableCell align="center">
           <CharacterStatInput
             initialStatValue={character.initiativeRoll}
             onStatChange={handleStatChange('initiativeRoll')}
+            withRollButton
+            onRoll={onInitiativeRollClick}
           />
         </TableCell>
         {/* BaseInitiative */}
-        <TableCell>
+        <TableCell align="center">
           <CharacterStatInput
             initialStatValue={character.baseInitiative}
             onStatChange={handleStatChange('baseInitiative')}
           />
         </TableCell>
         {/* InitiativeFumble */}
-        <TableCell>
+        <TableCell align="center">
           <CharacterStatInput
             initialStatValue={character.initiativeFumble}
             onStatChange={handleStatChange('initiativeFumble')}
           />
         </TableCell>
         {/* Enemy */}
-        <TableCell>
+        <TableCell align="center">
           <Checkbox
             checked={character.enemy}
             onChange={handleCharacterChange('enemy')}
           />
         </TableCell>
         {/* Uroboros */}
-        <TableCell>
+        <TableCell align="center">
           <Checkbox
             checked={character.uroboros}
             onChange={handleCharacterChange('uroboros')}
           />
         </TableCell>
         {/* Surprised by */}
-        <TableCell>
+        <TableCell align="center">
           <SurprisedBy
             character={character}
             otherCharacters={characters.filter(char => char.uid !== character.uid)}
           />
         </TableCell>
         {/* Surprises */}
-        <TableCell>
+        <TableCell align="center">
           <Surprises
             character={character}
             otherCharacters={characters.filter(char => char.uid !== character.uid)}
           />
         </TableCell>
-        {/* RollInitiativeButton */}
-        <TableCell>
-          <RollDiceButton onClick={onInitiativeRollClick} />
-        </TableCell>
         {/* RemoveCharacter */}
-        <TableCell>
+        <TableCell align="center">
           <IconButton aria-label="Delete" color="secondary" onClick={onRemoveCharacterClick}>
             <DeleteIcon fontSize="small" />
           </IconButton>
@@ -175,4 +199,4 @@ CharacterRow.propTypes = {
   characters: PropTypes.arrayOf(characterShape).isRequired,
 };
 
-export default CharacterRow;
+export default memo(CharacterRow);

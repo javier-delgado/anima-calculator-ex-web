@@ -6,6 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import { TableCell } from '@material-ui/core';
 import CharacterRow from './characterRow/CharacterRow';
 import CharacterListButtonsBar from './buttonsBar/CharacterListButtonsBar';
@@ -15,6 +16,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(3),
+  },
+  tableHead: {
+    whiteSpace: 'nowrap',
+  },
+  tableWrapper: {
     overflowX: 'auto',
   },
   table: {
@@ -63,44 +69,45 @@ const CharacterList = ({
         onSort={handleSort}
         onnRollAll={handleRollForAll}
       />
-      <Table className={classes.table} size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Ord.</TableCell>
-            <TableCell>Nombre</TableCell>
-            <TableCell>Vida</TableCell>
-            <TableCell>Cansancio</TableCell>
-            <TableCell>Ki</TableCell>
-            <TableCell>Xeon</TableCell>
-            <TableCell>CV</TableCell>
-            <TableCell>Natura</TableCell>
-            <TableCell>Notas</TableCell>
-            <TableCell>Iniciativa total</TableCell>
-            <TableCell>Tirada</TableCell>
-            <TableCell>Turno</TableCell>
-            <TableCell>Pifia</TableCell>
-            <TableCell>Enemigo</TableCell>
-            <TableCell>Uroboros</TableCell>
-            <TableCell>Sorprendido por</TableCell>
-            <TableCell>Sorprende a</TableCell>
-            <TableCell />
-            <TableCell />
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          { characters.map((character, idx) => (
-            <CharacterRow
-              key={character.uid}
-              order={idx + 1}
-              character={character}
-              characters={characters}
-              onUpdate={handleCharacterUpdate(character)}
-              onInitiativeRollClick={handleInitiativeRollClick(character)}
-              onRemoveCharacterClick={handleRemoveCharacterClick(character)}
-            />
-          ))}
-        </TableBody>
-      </Table>
+      <Box className={classes.tableWrapper}>
+        <Table className={classes.table} size="small">
+          <TableHead className={classes.tableHead}>
+            <TableRow>
+              <TableCell>Ord.</TableCell>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Vida</TableCell>
+              <TableCell>Cansancio</TableCell>
+              <TableCell>Ki</TableCell>
+              <TableCell>Xeon</TableCell>
+              <TableCell>CV</TableCell>
+              <TableCell>Natura</TableCell>
+              <TableCell>Notas</TableCell>
+              <TableCell>Iniciativa total</TableCell>
+              <TableCell>Tirada</TableCell>
+              <TableCell>Turno</TableCell>
+              <TableCell>Pifia</TableCell>
+              <TableCell>Enemigo</TableCell>
+              <TableCell>Uroboros</TableCell>
+              <TableCell>Sorprendido por</TableCell>
+              <TableCell>Sorprende a</TableCell>
+              <TableCell />
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { characters.map((character, idx) => (
+              <CharacterRow
+                key={character.uid}
+                order={idx + 1}
+                character={character}
+                characters={characters}
+                onUpdate={handleCharacterUpdate(character)}
+                onInitiativeRollClick={handleInitiativeRollClick(character)}
+                onRemoveCharacterClick={handleRemoveCharacterClick(character)}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
     </Paper>
   );
 };

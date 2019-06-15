@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Toolbar, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,4 +46,4 @@ CharacterListButtonsBar.propTypes = {
   onnRollAll: PropTypes.func.isRequired,
 };
 
-export default CharacterListButtonsBar;
+export default memo(CharacterListButtonsBar);

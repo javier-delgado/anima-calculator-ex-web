@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import { Tooltip } from '@material-ui/core';
+
+const useStyles = makeStyles(() => ({
+  root: {
+    width: 120,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+}));
 
 /**
  * Displays the list of characters affected by surprise
@@ -7,6 +18,7 @@ import PropTypes from 'prop-types';
  * @return {React.Component}
  */
 const SurprisedBy = ({ character, otherCharacters }) => {
+  const classes = useStyles();
   const [surprisedBy, setSurprisedBy] = useState([]);
 
   useEffect(() => {
@@ -15,10 +27,13 @@ const SurprisedBy = ({ character, otherCharacters }) => {
     ]);
   }, [character, otherCharacters]);
 
+  const text = surprisedBy.map(char => char.name).join(', ') || '-';
   return (
-    <div>
-      {surprisedBy.map(char => char.name).join(', ') || '-'}
-    </div>
+    <Tooltip title={text} placement="top">
+      <div className={classes.root}>
+        {text}
+      </div>
+    </Tooltip>
   );
 };
 
