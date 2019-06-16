@@ -12,6 +12,30 @@ https://anima-calculator.com
 
 https://play.google.com/store/apps/details?id=com.javierdelgado.anima_calculator_ex
 
+### Get started
+
+Install dependencies
+```
+yarn install
+```
+
+Run the webserver
+```
+yarn start
+```
+
+#### Electron
+
+To start a development server for electron, run
+```
+yarn electron-dev
+```
+
+To build the electron packages, run
+```
+yarn electron-pack
+```
+
 ### Features
 
 - Combat calculator
