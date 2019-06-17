@@ -12,6 +12,7 @@ const theme = createMuiTheme({
     accent: {
       main: '#B11016',
     },
+    lightText: '#FAFAFA',
   },
 });
 

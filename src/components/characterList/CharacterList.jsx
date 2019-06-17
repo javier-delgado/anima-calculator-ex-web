@@ -22,9 +22,13 @@ const useStyles = makeStyles(theme => ({
   },
   tableWrapper: {
     overflowX: 'auto',
+    overflowY: 'auto',
   },
   table: {
     minWidth: 650,
+  },
+  initiativeCell: {
+    background: '#F8F8F8',
   },
 }));
 
@@ -75,6 +79,14 @@ const CharacterList = ({
             <TableRow>
               <TableCell>Ord.</TableCell>
               <TableCell>Nombre</TableCell>
+              <TableCell>Enemigo</TableCell>
+              <TableCell className={classes.initiativeCell}>Uroboros</TableCell>
+              <TableCell className={classes.initiativeCell}>Iniciativa total</TableCell>
+              <TableCell className={classes.initiativeCell}>Tirada</TableCell>
+              <TableCell className={classes.initiativeCell}>Turno</TableCell>
+              <TableCell className={classes.initiativeCell}>Pifia</TableCell>
+              <TableCell className={classes.initiativeCell}>Sorprendido por</TableCell>
+              <TableCell className={classes.initiativeCell}>Sorprende a</TableCell>
               <TableCell>Vida</TableCell>
               <TableCell>Cansancio</TableCell>
               <TableCell>Ki</TableCell>
@@ -82,14 +94,6 @@ const CharacterList = ({
               <TableCell>CV</TableCell>
               <TableCell>Natura</TableCell>
               <TableCell>Notas</TableCell>
-              <TableCell>Iniciativa total</TableCell>
-              <TableCell>Tirada</TableCell>
-              <TableCell>Turno</TableCell>
-              <TableCell>Pifia</TableCell>
-              <TableCell>Enemigo</TableCell>
-              <TableCell>Uroboros</TableCell>
-              <TableCell>Sorprendido por</TableCell>
-              <TableCell>Sorprende a</TableCell>
               <TableCell />
             </TableRow>
           </TableHead>

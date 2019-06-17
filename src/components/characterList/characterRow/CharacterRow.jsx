@@ -19,6 +19,9 @@ const useStyles = makeStyles(() => ({
   input: {
     fontSize: 14,
   },
+  initiativeCell: {
+    backgroundColor: '#F8F8F8',
+  },
 }));
 
 /**
@@ -52,6 +55,61 @@ const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRoll
               },
             }}
             onChange={handleCharacterChange('name')}
+          />
+        </TableCell>
+        {/* Enemy */}
+        <TableCell align="center">
+          <Checkbox
+            checked={character.enemy}
+            onChange={handleCharacterChange('enemy')}
+          />
+        </TableCell>
+        {/* Uroboros */}
+        <TableCell align="center" className={classes.initiativeCell}>
+          <Checkbox
+            checked={character.uroboros}
+            onChange={handleCharacterChange('uroboros')}
+          />
+        </TableCell>
+        {/* TotalInitiative */}
+        <TableCell align="center" className={classes.initiativeCell}>
+          {character.totalInitiative}
+        </TableCell>
+        {/* InitiativeRoll */}
+        <TableCell align="center" className={classes.initiativeCell}>
+          <CharacterStatInput
+            initialStatValue={character.initiativeRoll}
+            onStatChange={handleStatChange('initiativeRoll')}
+            withRollButton
+            onRoll={onInitiativeRollClick}
+          />
+        </TableCell>
+        {/* BaseInitiative */}
+        <TableCell align="center" className={classes.initiativeCell}>
+          <CharacterStatInput
+            initialStatValue={character.baseInitiative}
+            onStatChange={handleStatChange('baseInitiative')}
+          />
+        </TableCell>
+        {/* InitiativeFumble */}
+        <TableCell align="center" className={classes.initiativeCell}>
+          <CharacterStatInput
+            initialStatValue={character.initiativeFumble}
+            onStatChange={handleStatChange('initiativeFumble')}
+          />
+        </TableCell>
+        {/* Surprised by */}
+        <TableCell align="center" className={classes.initiativeCell}>
+          <SurprisedBy
+            character={character}
+            otherCharacters={characters.filter(char => char.uid !== character.uid)}
+          />
+        </TableCell>
+        {/* Surprises */}
+        <TableCell align="center" className={classes.initiativeCell}>
+          <Surprises
+            character={character}
+            otherCharacters={characters.filter(char => char.uid !== character.uid)}
           />
         </TableCell>
         {/* Vida */}
@@ -105,61 +163,6 @@ const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRoll
         {/* Notas */}
         <TableCell align="center">
           TODO notes
-        </TableCell>
-        {/* TotalInitiative */}
-        <TableCell align="center">
-          {character.totalInitiative}
-        </TableCell>
-        {/* InitiativeRoll */}
-        <TableCell align="center">
-          <CharacterStatInput
-            initialStatValue={character.initiativeRoll}
-            onStatChange={handleStatChange('initiativeRoll')}
-            withRollButton
-            onRoll={onInitiativeRollClick}
-          />
-        </TableCell>
-        {/* BaseInitiative */}
-        <TableCell align="center">
-          <CharacterStatInput
-            initialStatValue={character.baseInitiative}
-            onStatChange={handleStatChange('baseInitiative')}
-          />
-        </TableCell>
-        {/* InitiativeFumble */}
-        <TableCell align="center">
-          <CharacterStatInput
-            initialStatValue={character.initiativeFumble}
-            onStatChange={handleStatChange('initiativeFumble')}
-          />
-        </TableCell>
-        {/* Enemy */}
-        <TableCell align="center">
-          <Checkbox
-            checked={character.enemy}
-            onChange={handleCharacterChange('enemy')}
-          />
-        </TableCell>
-        {/* Uroboros */}
-        <TableCell align="center">
-          <Checkbox
-            checked={character.uroboros}
-            onChange={handleCharacterChange('uroboros')}
-          />
-        </TableCell>
-        {/* Surprised by */}
-        <TableCell align="center">
-          <SurprisedBy
-            character={character}
-            otherCharacters={characters.filter(char => char.uid !== character.uid)}
-          />
-        </TableCell>
-        {/* Surprises */}
-        <TableCell align="center">
-          <Surprises
-            character={character}
-            otherCharacters={characters.filter(char => char.uid !== character.uid)}
-          />
         </TableCell>
         {/* RemoveCharacter */}
         <TableCell align="center">
