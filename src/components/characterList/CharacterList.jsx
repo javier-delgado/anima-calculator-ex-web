@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -8,9 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import { TableCell } from '@material-ui/core';
-import CharacterRow from './characterRow/CharacterRow';
+import CharacterRow from './characterRow/characterRow.conector';
 import CharacterListButtonsBar from './buttonsBar/CharacterListButtonsBar';
-import DiceRoller from '../../domain/diceRoller';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,8 +31,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const diceRoller = new DiceRoller();
-
 /**
  * A list of character rows.  Used to keep track of initiative and other stats.
  * @return {React.Component}
@@ -41,30 +38,20 @@ const diceRoller = new DiceRoller();
 const CharacterList = ({
   characters,
   addCharacter,
-  updateCharacter,
   sortCharacters,
   rollInitiativeForAll,
-  removeCharacter,
 }) => {
   const classes = useStyles();
 
   const handleNewCharacter = () => addCharacter();
 
-  const handleRemoveCharacterClick = character => () => removeCharacter(character);
-
   const handleSort = () => sortCharacters(characters);
 
   const handleRollForAll = () => rollInitiativeForAll(characters);
 
-  const handleCharacterUpdate = originalCharacter => changes => updateCharacter(originalCharacter, changes);
-
-  const handleInitiativeRollClick = originalCharacter => () => {
-    const { finalResult, fumbleLevel } = diceRoller.perform();
-    updateCharacter(originalCharacter, {
-      initiativeRoll: finalResult,
-      initiativeFumble: -fumbleLevel,
-    });
-  };
+  useEffect(() => {
+    console.log('renderParent');
+  });
 
   return (
     <Paper className={classes.root}>
@@ -101,12 +88,8 @@ const CharacterList = ({
             { characters.map((character, idx) => (
               <CharacterRow
                 key={character.uid}
-                order={idx + 1}
-                character={character}
-                characters={characters}
-                onUpdate={handleCharacterUpdate(character)}
-                onInitiativeRollClick={handleInitiativeRollClick(character)}
-                onRemoveCharacterClick={handleRemoveCharacterClick(character)}
+                //order={idx + 1}
+                characterUid={character.uid}
               />
             ))}
           </TableBody>
@@ -137,10 +120,10 @@ const characterShape = PropTypes.shape({
 CharacterList.propTypes = {
   characters: PropTypes.arrayOf(characterShape).isRequired,
   addCharacter: PropTypes.func.isRequired,
-  updateCharacter: PropTypes.func.isRequired,
   sortCharacters: PropTypes.func.isRequired,
   rollInitiativeForAll: PropTypes.func.isRequired,
-  removeCharacter: PropTypes.func.isRequired,
 };
 
-export default CharacterList;
+export default memo(CharacterList, (prevProps, nextProps) => (
+  prevProps.characters.length === nextProps.characters.length
+));

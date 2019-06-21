@@ -37,7 +37,8 @@ const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, on
     const cleanText = removeUnwantedChars(event.target.value);
     setStatText(cleanText);
     const sum = addbits(cleanText);
-    onStatChangeDecounced(sum);
+    // onStatChangeDecounced(sum);
+    onStatChange(sum);
   };
 
   const onStatChangeDecounced = debounce((sum) => {

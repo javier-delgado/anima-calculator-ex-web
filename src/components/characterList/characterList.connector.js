@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 import CharacterList from './CharacterList';
 import { addCharacter,
-  removeCharacter,
-  updateCharacter,
   sortCharacters,
   rollInitiativeForAll } from '../../redux/characters/characters.actions';
 
@@ -12,8 +10,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = ({
   addCharacter,
-  removeCharacter,
-  updateCharacter,
   sortCharacters,
   rollInitiativeForAll,
 });

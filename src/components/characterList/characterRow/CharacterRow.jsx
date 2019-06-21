@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TableRow, TableCell, TextField, Checkbox } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import Surprises from './surprises/Surprises';
 import SurprisedBy from './surprisedBy/SurprisedBy';
+import DiceRoller from '../../../domain/diceRoller';
 
 const useStyles = makeStyles(() => ({
   name: {
@@ -24,17 +25,40 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const diceRoller = new DiceRoller();
+
 /**
  * A row containing the data for a character.
  * @return {React.Component}
  */
-const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRollClick, onRemoveCharacterClick }) => {
+const CharacterRow = ({ characterUid, character, surprisedBy, surprises, order, removeCharacter, updateCharacter }) => {
   const classes = useStyles();
 
-  const handleStatChange = name => value => onUpdate({ [name]: value });
+  // useEffect(() => {
+  //   setCharacter(characters.find(element => element.uid === characterUid));
+  // }, [characters]);
+
+  useEffect(() => {
+    console.log('render'+characterUid);
+  });
+
+  const handleStatChange = name => value => updateCharacter(character, { [name]: value });
 
   const handleCharacterChange = name => (event) => {
-    onUpdate({ [name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value });
+    updateCharacter(
+      character,
+      { [name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value },
+    );
+  };
+
+  const handleRemoveCharacterClick = () => removeCharacter(character);
+
+  const handleInitiativeRollClick = () => {
+    const { finalResult, fumbleLevel } = diceRoller.perform();
+    updateCharacter(character, {
+      initiativeRoll: finalResult,
+      initiativeFumble: -fumbleLevel,
+    });
   };
 
   return (
@@ -81,7 +105,7 @@ const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRoll
             initialStatValue={character.initiativeRoll}
             onStatChange={handleStatChange('initiativeRoll')}
             withRollButton
-            onRoll={onInitiativeRollClick}
+            onRoll={handleInitiativeRollClick}
           />
         </TableCell>
         {/* BaseInitiative */}
@@ -100,17 +124,17 @@ const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRoll
         </TableCell>
         {/* Surprised by */}
         <TableCell align="center" className={classes.initiativeCell}>
-          <SurprisedBy
+          {/* <SurprisedBy
             character={character}
             otherCharacters={characters.filter(char => char.uid !== character.uid)}
-          />
+          /> */}
         </TableCell>
         {/* Surprises */}
         <TableCell align="center" className={classes.initiativeCell}>
-          <Surprises
+          {/* <Surprises
             character={character}
             otherCharacters={characters.filter(char => char.uid !== character.uid)}
-          />
+          /> */}
         </TableCell>
         {/* Vida */}
         <TableCell align="center">
@@ -166,7 +190,7 @@ const CharacterRow = ({ character, characters, order, onUpdate, onInitiativeRoll
         </TableCell>
         {/* RemoveCharacter */}
         <TableCell align="center">
-          <IconButton aria-label="Delete" color="secondary" onClick={onRemoveCharacterClick}>
+          <IconButton aria-label="Delete" color="secondary" onClick={handleRemoveCharacterClick}>
             <DeleteIcon fontSize="small" />
           </IconButton>
         </TableCell>
@@ -193,13 +217,22 @@ const characterShape = PropTypes.shape({
   totalInitiative: PropTypes.number,
 });
 
-CharacterRow.propTypes = {
-  character: characterShape.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  onInitiativeRollClick: PropTypes.func.isRequired,
-  onRemoveCharacterClick: PropTypes.func.isRequired,
-  order: PropTypes.number.isRequired,
-  characters: PropTypes.arrayOf(characterShape).isRequired,
+CharacterRow.defaultProps = {
+  order: 1,
 };
+
+CharacterRow.propTypes = {
+  characterUid: PropTypes.number.isRequired,
+  removeCharacter: PropTypes.func.isRequired,
+  updateCharacter: PropTypes.func.isRequired,
+  order: PropTypes.number,
+  character: characterShape.isRequired,
+};
+
+// export default memo(CharacterRow, (prevProps, nextProps) => {
+//   const prevChar = prevProps.characters.find(el => el.uid === prevProps.characterUid);
+//   const nextChar = nextProps.characters.find(el => el.uid === nextProps.characterUid);
+//   return prevChar === nextChar;
+// });
 
 export default memo(CharacterRow);
