@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Tooltip } from '@material-ui/core';
@@ -17,15 +18,8 @@ const useStyles = makeStyles(() => ({
  * (positively or negatively).
  * @return {React.Component}
  */
-const SurprisedBy = ({ character, otherCharacters }) => {
+const Surprise = ({ surprisedBy }) => {
   const classes = useStyles();
-  const [surprisedBy, setSurprisedBy] = useState([]);
-
-  useEffect(() => {
-    setSurprisedBy([
-      ...otherCharacters.filter(otherChar => (otherChar.totalInitiative - character.totalInitiative > 150)),
-    ]);
-  }, [character, otherCharacters]);
 
   const text = surprisedBy.map(char => char.name).join(', ') || '-';
   return (
@@ -39,13 +33,19 @@ const SurprisedBy = ({ character, otherCharacters }) => {
 
 const characterShape = PropTypes.shape({
   name: PropTypes.string,
-  uroboros: PropTypes.bool,
-  totalInitiative: PropTypes.number,
 });
 
-SurprisedBy.propTypes = {
-  character: characterShape.isRequired,
-  otherCharacters: PropTypes.arrayOf(characterShape).isRequired,
+Surprise.propTypes = {
+  characterUid: PropTypes.number.isRequired,
+  evalFunc: PropTypes.func.isRequired,
+  surprisedBy: PropTypes.arrayOf(characterShape).isRequired,
 };
 
-export default SurprisedBy;
+const mapStateToProps = (state, ownProps) => {
+  const char = state.characters.find(item => item.uid === ownProps.characterUid);
+  return {
+    surprisedBy: state.characters.filter(otherChar => ownProps.evalFunc(char, otherChar)),
+  };
+};
+
+export default connect(mapStateToProps)(Surprise);

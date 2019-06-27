@@ -23,9 +23,7 @@ module.exports = {
     ],
     "rules": {
         "require-jsdoc": "off",
-        "max-len": ["warn", {
-            "code": 120
-        }],
+        "max-len": "off",
         "no-use-before-define": "off",
         "no-console": ["error", {
             "allow": ["warn", "error"]
@@ -35,6 +33,7 @@ module.exports = {
         }],
         "no-underscore-dangle": ["error", {
             "allowAfterThis": true
-        }]
+        }],
+        "react/no-unused-prop-types": "off"
     }
 };

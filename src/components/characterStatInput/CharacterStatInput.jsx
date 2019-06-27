@@ -2,7 +2,6 @@ import React, { useState, useEffect, memo } from 'react';
 import { TextField, InputAdornment, IconButton } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { debounce } from 'lodash';
 
 const useStyles = withRollButton => makeStyles(() => ({
   textInput: {
@@ -37,13 +36,8 @@ const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, on
     const cleanText = removeUnwantedChars(event.target.value);
     setStatText(cleanText);
     const sum = addbits(cleanText);
-    // onStatChangeDecounced(sum);
     onStatChange(sum);
   };
-
-  const onStatChangeDecounced = debounce((sum) => {
-    onStatChange(sum);
-  }, 200);
 
   /**
    * Performs simple math operations (addition, substracion) on a String

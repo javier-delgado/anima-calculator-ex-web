@@ -6,7 +6,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactGA from 'react-ga';
 import Container from '@material-ui/core/Container';
-import CharacterList from './components/characterList/characterList.connector';
+import CharacterList from './components/characterList/CharacterList';
 import theme from './materialTheme';
 import MainAppBar from './components/mainAppBar/MainAppBar';
 

@@ -8,17 +8,17 @@ import DiceRoller from '../../domain/diceRoller';
 const diceRoller = new DiceRoller();
 
 // <ACTIONS>
-export const addCharacter = character => ({ type: ADD_CHARACTER, character });
+export const actionAddCharacter = character => ({ type: ADD_CHARACTER, character });
 
-export const removeCharacter = character => ({ type: REMOVE_CHARACTER, character });
+export const actionRemoveCharacter = character => ({ type: REMOVE_CHARACTER, character });
 
-export const updateCharacter = (character, changes) => (
+export const actionUpdateCharacter = (character, changes) => (
   { type: UPDATE_CHARACTER, uid: character.uid, updatedCharacter: getUpdatedCharacter(character, changes) }
 );
 
-export const sortCharacters = characters => ({ type: SORT_CHARACTERS, sorted: sortCharacterList(characters) });
+export const actionSortCharacters = characters => ({ type: SORT_CHARACTERS, sorted: sortCharacterList(characters) });
 
-export const rollInitiativeForAll = characters => ({
+export const actionRollInitiativeForAll = characters => ({
   type: ROLL_INITIATIVE_FOR_ALL,
   charactersWithNewInitiative: sortCharacterList(
     characters.map((character) => {

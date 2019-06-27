@@ -1,13 +1,15 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { TableRow, TableCell, TextField, Checkbox } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
+import { isEqual } from 'lodash';
+import { connect } from 'react-redux';
+import { actionRemoveCharacter, actionUpdateCharacter } from '../../../redux/characters/characters.actions';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
-import Surprises from './surprises/Surprises';
-import SurprisedBy from './surprisedBy/SurprisedBy';
+import Surprise from './surprise/Surprise';
 import DiceRoller from '../../../domain/diceRoller';
 
 const useStyles = makeStyles(() => ({
@@ -31,16 +33,8 @@ const diceRoller = new DiceRoller();
  * A row containing the data for a character.
  * @return {React.Component}
  */
-const CharacterRow = ({ characterUid, character, surprisedBy, surprises, order, removeCharacter, updateCharacter }) => {
+const CharacterRow = ({ characterUid, character, order, removeCharacter, updateCharacter }) => {
   const classes = useStyles();
-
-  // useEffect(() => {
-  //   setCharacter(characters.find(element => element.uid === characterUid));
-  // }, [characters]);
-
-  useEffect(() => {
-    console.log('render'+characterUid);
-  });
 
   const handleStatChange = name => value => updateCharacter(character, { [name]: value });
 
@@ -124,17 +118,17 @@ const CharacterRow = ({ characterUid, character, surprisedBy, surprises, order, 
         </TableCell>
         {/* Surprised by */}
         <TableCell align="center" className={classes.initiativeCell}>
-          {/* <SurprisedBy
-            character={character}
-            otherCharacters={characters.filter(char => char.uid !== character.uid)}
-          /> */}
+          <Surprise
+            characterUid={characterUid}
+            evalFunc={(char, otherChar) => (otherChar.totalInitiative - char.totalInitiative > 150)}
+          />
         </TableCell>
         {/* Surprises */}
         <TableCell align="center" className={classes.initiativeCell}>
-          {/* <Surprises
-            character={character}
-            otherCharacters={characters.filter(char => char.uid !== character.uid)}
-          /> */}
+          <Surprise
+            characterUid={characterUid}
+            evalFunc={(char, otherChar) => (char.totalInitiative - otherChar.totalInitiative > (char.uroboros ? 100 : 150))}
+          />
         </TableCell>
         {/* Vida */}
         <TableCell align="center">
@@ -229,10 +223,20 @@ CharacterRow.propTypes = {
   character: characterShape.isRequired,
 };
 
-// export default memo(CharacterRow, (prevProps, nextProps) => {
-//   const prevChar = prevProps.characters.find(el => el.uid === prevProps.characterUid);
-//   const nextChar = nextProps.characters.find(el => el.uid === nextProps.characterUid);
-//   return prevChar === nextChar;
-// });
+const mapStateToProps = (state, ownProps) => {
+  const char = state.characters.find(item => item.uid === ownProps.characterUid);
+  return {
+    character: char,
+  };
+};
 
-export default memo(CharacterRow);
+const mapDispatchToProps = ({
+  removeCharacter: actionRemoveCharacter,
+  updateCharacter: actionUpdateCharacter,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  memo(CharacterRow, (prevProps, nextProps) => (
+    prevProps.order === nextProps.order && isEqual(prevProps.character, nextProps.character)
+  )),
+);

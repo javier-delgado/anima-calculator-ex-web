@@ -1,4 +1,5 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -8,7 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import { TableCell } from '@material-ui/core';
-import CharacterRow from './characterRow/characterRow.conector';
+
+import { actionAddCharacter,
+  actionSortCharacters,
+  actionRollInitiativeForAll } from '../../redux/characters/characters.actions';
+import CharacterRow from './characterRow/CharacterRow';
 import CharacterListButtonsBar from './buttonsBar/CharacterListButtonsBar';
 
 const useStyles = makeStyles(theme => ({
@@ -35,12 +40,7 @@ const useStyles = makeStyles(theme => ({
  * A list of character rows.  Used to keep track of initiative and other stats.
  * @return {React.Component}
  */
-const CharacterList = ({
-  characters,
-  addCharacter,
-  sortCharacters,
-  rollInitiativeForAll,
-}) => {
+const CharacterList = ({ characters, addCharacter, sortCharacters, rollInitiativeForAll }) => {
   const classes = useStyles();
 
   const handleNewCharacter = () => addCharacter();
@@ -48,10 +48,6 @@ const CharacterList = ({
   const handleSort = () => sortCharacters(characters);
 
   const handleRollForAll = () => rollInitiativeForAll(characters);
-
-  useEffect(() => {
-    console.log('renderParent');
-  });
 
   return (
     <Paper className={classes.root}>
@@ -88,7 +84,7 @@ const CharacterList = ({
             { characters.map((character, idx) => (
               <CharacterRow
                 key={character.uid}
-                //order={idx + 1}
+                order={idx + 1}
                 characterUid={character.uid}
               />
             ))}
@@ -124,6 +120,14 @@ CharacterList.propTypes = {
   rollInitiativeForAll: PropTypes.func.isRequired,
 };
 
-export default memo(CharacterList, (prevProps, nextProps) => (
-  prevProps.characters.length === nextProps.characters.length
-));
+const mapStateToProps = state => ({
+  characters: state.characters,
+});
+
+const mapDispatchToProps = ({
+  addCharacter: actionAddCharacter,
+  sortCharacters: actionSortCharacters,
+  rollInitiativeForAll: actionRollInitiativeForAll,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(memo(CharacterList));
