@@ -5,14 +5,20 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = withRollButton => makeStyles(() => ({
   textInput: {
-    minWidth: withRollButton ? 70 : 40,
+    minWidth: withRollButton ? 76 : 40,
   },
   input: {
     fontSize: 14,
   },
   icon: {
-    height: 26,
-    width: 26,
+    margin: 0,
+  },
+  adornment: {
+    marginRight: -12,
+  },
+  svgIcon: {
+    height: 24,
+    width: 24,
   },
 }));
 
@@ -62,14 +68,14 @@ const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, on
       input: classes.input,
     },
     endAdornment: withRollButton ? (
-      <InputAdornment position="end">
+      <InputAdornment position="end" className={classes.adornment}>
         <IconButton
           edge="end"
           size="small"
           aria-label="Roll initiative"
           onClick={onRoll}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className={classes.icon} viewBox="0 0 512 512">
+          <svg xmlns="http://www.w3.org/2000/svg" className={classes.svgIcon} viewBox="0 0 512 512">
             <g transform="translate(0,0)" style={{ touchAction: 'none' }}>
               <path
                 // eslint-disable-next-line max-len

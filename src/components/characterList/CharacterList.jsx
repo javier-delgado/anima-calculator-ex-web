@@ -16,10 +16,11 @@ import { actionAddCharacter,
 import CharacterRow from './characterRow/CharacterRow';
 import CharacterListButtonsBar from './buttonsBar/CharacterListButtonsBar';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
+    flex: '0 0 50%',
+    overflow: 'scroll',
   },
   tableHead: {
     whiteSpace: 'nowrap',

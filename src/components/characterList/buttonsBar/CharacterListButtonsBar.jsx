@@ -32,7 +32,7 @@ const CharacterListButtonsBar = ({ onNewCharacter, onSort, onnRollAll }) => {
   const handleClose = () => { setAnchorEl(null); };
 
   return (
-    <Toolbar className={classes.root}>
+    <Toolbar className={classes.root} variant="dense">
       <div className={classes.title}>
         <Typography variant="h6" id="tableTitle">
           Personajes

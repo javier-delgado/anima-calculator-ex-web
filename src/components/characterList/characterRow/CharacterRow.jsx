@@ -67,11 +67,11 @@ const CharacterRow = ({ characterUid, character, order, removeCharacter, updateC
           <TextField
             className={classes.name}
             value={character.name}
-            InputProps={{
-              classes: {
-                input: classes.input,
-              },
-            }}
+            // InputProps={{
+            //   classes: {
+            //     input: classes.input,
+            //   },
+            // }}
             onChange={handleCharacterChange('name')}
           />
         </TableCell>

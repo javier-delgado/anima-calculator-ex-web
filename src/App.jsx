@@ -3,6 +3,7 @@ import './App.scss';
 import CssBaseline from '@material-ui/core/CssBaseline';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ThemeProvider } from '@material-ui/styles';
+import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactGA from 'react-ga';
 import Container from '@material-ui/core/Container';
@@ -17,6 +18,12 @@ const useStyles = makeStyles(() => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
+    height: '100vh',
+    padding: theme.spacing(1),
+  },
+  bottomPaper: {
+    flex: '0 0 50%',
+    overflow: 'scroll',
   },
 }));
 
@@ -26,9 +33,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <MainAppBar />
+      {/* <MainAppBar /> */}
       <Container maxWidth="xl" className={classes.container}>
         <CharacterList />
+        {/* <Paper className={classes.bottomPaper}>Bottom component</Paper> */}
       </Container>
     </ThemeProvider>
   );

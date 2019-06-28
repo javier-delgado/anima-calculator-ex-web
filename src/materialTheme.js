@@ -14,6 +14,27 @@ const theme = createMuiTheme({
     },
     lightText: '#FAFAFA',
   },
+  typography: {
+    fontSize: 12,
+  },
+  spacing: 4,
+  props: {
+    MuiTextField: {
+      variant: 'outlined',
+    },
+  },
+  overrides: {
+    MuiOutlinedInput: {
+      input: {
+        padding: 4,
+      },
+    },
+    MuiTableCell: {
+      sizeSmall: {
+        padding: '2px 8px',
+      },
+    },
+  },
 });
 
 export default theme;
