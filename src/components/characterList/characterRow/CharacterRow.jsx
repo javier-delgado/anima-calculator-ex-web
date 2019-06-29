@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { TableRow, TableCell, TextField, Checkbox } from '@material-ui/core';
+import { TableRow, TableCell, TextField, Checkbox, Select, OutlinedInput, MenuItem, Tooltip } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,14 +16,21 @@ const useStyles = makeStyles(() => ({
   name: {
     minWidth: 120,
   },
+  notes: {
+    minWidth: 200,
+  },
   natura: {
     minWidth: 100,
+    maxWidth: 300,
   },
   input: {
     fontSize: 14,
   },
   initiativeCell: {
     backgroundColor: '#F8F8F8',
+  },
+  naturaSelect: {
+    width: '100%',
   },
 }));
 
@@ -67,11 +74,6 @@ const CharacterRow = ({ characterUid, character, order, removeCharacter, updateC
           <TextField
             className={classes.name}
             value={character.name}
-            // InputProps={{
-            //   classes: {
-            //     input: classes.input,
-            //   },
-            // }}
             onChange={handleCharacterChange('name')}
           />
         </TableCell>
@@ -167,20 +169,26 @@ const CharacterRow = ({ characterUid, character, order, removeCharacter, updateC
         </TableCell>
         {/* Natura */}
         <TableCell align="center">
-          <TextField
-            className={classes.natura}
+          <Select
             value={character.natura}
-            InputProps={{
-              classes: {
-                input: classes.input,
-              },
-            }}
-            onChange={handleCharacterChange('natura')}
-          />
+            onChange={(handleCharacterChange('natura'))}
+            input={<OutlinedInput />}
+            className={classes.naturaSelect}
+          >
+            <MenuItem value="Natura +0">Natura +0</MenuItem>
+            <MenuItem value="Natura +5/+10">Natura +5/+10</MenuItem>
+            <MenuItem value="Natura +15">Natura +15</MenuItem>
+          </Select>
         </TableCell>
         {/* Notas */}
         <TableCell align="center">
-          TODO notes
+          <Tooltip title={character.notes || ''} placement="top">
+            <TextField
+              onChange={(handleCharacterChange('notes'))}
+              className={classes.notes}
+              value={character.notes}
+            />
+          </Tooltip>
         </TableCell>
         {/* RemoveCharacter */}
         <TableCell align="center">

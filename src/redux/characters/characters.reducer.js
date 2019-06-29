@@ -12,7 +12,7 @@ const EMPTY_CHARACTER = {
   ki: 0,
   xeon: 0,
   cv: 0,
-  natura: '',
+  natura: 'Natura +5/+10',
   notes: '',
   baseInitiative: 0,
   enemy: false,

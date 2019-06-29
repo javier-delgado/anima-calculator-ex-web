@@ -18,16 +18,19 @@ import CharacterListButtonsBar from './buttonsBar/CharacterListButtonsBar';
 
 const useStyles = makeStyles(() => ({
   root: {
-    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     flex: '0 0 50%',
-    overflow: 'scroll',
+    width: '100%',
+    overflow: 'hidden',
   },
   tableHead: {
     whiteSpace: 'nowrap',
   },
   tableWrapper: {
-    overflowX: 'auto',
-    overflowY: 'auto',
+    overflow: 'scroll',
+    flexGrow: 1,
+    paddingBottom: 16,
   },
   table: {
     minWidth: 650,
@@ -81,7 +84,7 @@ const CharacterList = ({ characters, addCharacter, sortCharacters, rollInitiativ
               <TableCell />
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody className={classes.tableBody}>
             { characters.map((character, idx) => (
               <CharacterRow
                 key={character.uid}
