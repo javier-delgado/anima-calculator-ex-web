@@ -6,7 +6,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import { TableCell, Tooltip } from '@material-ui/core';
 
@@ -17,13 +16,6 @@ import CharacterRow from './characterRow/CharacterRow';
 import CharacterListButtonsBar from './buttonsBar/CharacterListButtonsBar';
 
 const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    flex: '0 0 50%',
-    width: '100%',
-    overflow: 'hidden',
-  },
   tableHead: {
     whiteSpace: 'nowrap',
   },
@@ -54,7 +46,7 @@ const CharacterList = ({ characters, addCharacter, sortCharacters, rollInitiativ
   const handleRollForAll = () => rollInitiativeForAll(characters);
 
   return (
-    <Paper className={classes.root}>
+    <>
       <CharacterListButtonsBar
         onNewCharacter={handleNewCharacter}
         onSort={handleSort}
@@ -99,7 +91,7 @@ const CharacterList = ({ characters, addCharacter, sortCharacters, rollInitiativ
           </TableBody>
         </Table>
       </Box>
-    </Paper>
+    </>
   );
 };
 

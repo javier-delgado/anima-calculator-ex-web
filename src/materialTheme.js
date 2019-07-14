@@ -29,6 +29,11 @@ const theme = createMuiTheme({
         padding: 4,
       },
     },
+    MuiInputLabel: {
+      outlined: {
+        transform: 'translate(14px, 6px) scale(1)',
+      },
+    },
     MuiTableCell: {
       sizeSmall: {
         padding: '2px 8px',

@@ -27,7 +27,7 @@ const useStyles = withRollButton => makeStyles(() => ({
  * Allows for simple math operators within the input (plus and minus)
  * @return {React.Component}
  */
-const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, onRoll }) => {
+const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, onRoll, ...other }) => {
   const UNSIGNED_NUMBER_REGEX = /[+\-]?([0-9\.]+)/g; // eslint-disable-line
   const NUMBERS_AND_OPERANDS_REGEX = /[^\d+-]/g; // eslint-disable-line
   const classes = useStyles(withRollButton)();
@@ -92,6 +92,7 @@ const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, on
 
   return (
     <TextField
+      {...other}
       className={classes.textInput}
       onChange={handleChange}
       value={statText}
