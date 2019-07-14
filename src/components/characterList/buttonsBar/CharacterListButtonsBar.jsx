@@ -53,7 +53,10 @@ const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAl
 
   const handleOpenSaveDialog = () => setSaveDialogOpen(true);
 
-  const handleOpenClearDialog = () => setClearDialogOpen(true);
+  const handleOpenClearDialog = () => {
+    setClearDialogOpen(true);
+    handleCloseMenu();
+  };
 
   const handleOpenLoadDialog = () => {
     setStoredParties(partyPersistence.partyList());
@@ -74,6 +77,16 @@ const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAl
   const handlePartyClear = () => {
     clearParty();
     setClearDialogOpen(false);
+  };
+
+  const handleExportParty = () => {
+    partyPersistence.exportParty(characters);
+    handleCloseMenu();
+  };
+
+  const handleImportParty = () => {
+    partyPersistence.importParty(importedParty => replaceCharacters(importedParty));
+    handleCloseMenu();
   };
 
   return (
@@ -140,6 +153,8 @@ const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAl
           onClose={handleCloseMenu}
         >
           <MenuItem onClick={handleOpenClearDialog}>Limpiar party actual</MenuItem>
+          <MenuItem onClick={handleExportParty}>Exportar party</MenuItem>
+          <MenuItem onClick={handleImportParty}>Importar party</MenuItem>
         </Menu>
       </Toolbar>
 

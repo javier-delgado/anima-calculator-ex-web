@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-import { TableCell } from '@material-ui/core';
+import { TableCell, Tooltip } from '@material-ui/core';
 
 import { actionAddCharacter,
   actionSortCharacters,
@@ -66,7 +66,11 @@ const CharacterList = ({ characters, addCharacter, sortCharacters, rollInitiativ
             <TableRow>
               <TableCell>Ord.</TableCell>
               <TableCell>Nombre</TableCell>
-              <TableCell>Enemigo</TableCell>
+              <Tooltip title="Los enemigos no se persisten al guardar la party" placement="bottom">
+                <TableCell>
+                    Enemigo
+                </TableCell>
+              </Tooltip>
               <TableCell className={classes.initiativeCell}>Uroboros</TableCell>
               <TableCell className={classes.initiativeCell}>Iniciativa total</TableCell>
               <TableCell className={classes.initiativeCell}>Tirada</TableCell>
