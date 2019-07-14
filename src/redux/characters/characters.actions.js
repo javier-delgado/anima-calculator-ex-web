@@ -2,7 +2,8 @@ import { ADD_CHARACTER,
   UPDATE_CHARACTER,
   SORT_CHARACTERS,
   ROLL_INITIATIVE_FOR_ALL,
-  REMOVE_CHARACTER } from './characters.constants';
+  REMOVE_CHARACTER, 
+  REPLACE_CHARACTERS } from './characters.constants';
 import DiceRoller from '../../domain/diceRoller';
 
 const diceRoller = new DiceRoller();
@@ -29,6 +30,8 @@ export const actionRollInitiativeForAll = characters => ({
     }),
   ),
 });
+
+export const actionReplaceCharacters = newCharacters => ({ type: REPLACE_CHARACTERS, newCharacters });
 // </ACTIONS>
 
 const getUpdatedCharacter = (character, changes) => {

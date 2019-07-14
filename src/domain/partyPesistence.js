@@ -8,7 +8,7 @@ const partyPersistence = {
     localStorage.setItem(PARTIES, JSON.stringify(parties));
   },
   load: partyName => getParties()[partyName],
-  partyList: () => getParties().keys,
+  partyList: () => Object.keys(getParties()),
 };
 
 const getParties = () => {

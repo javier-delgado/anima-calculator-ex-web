@@ -13,6 +13,11 @@ const SavePartyDialog = ({ open, onClose, onSave }) => {
 
   const onPartyNameChange = event => setPartyName(event.target.value);
 
+  const handleSave = () => {
+    onSave(partyName);
+    setPartyName('');
+  };
+
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Guardar party</DialogTitle>
@@ -35,7 +40,7 @@ const SavePartyDialog = ({ open, onClose, onSave }) => {
           Cancel
         </Button>
         <Button
-          onClick={onSave(partyName)}
+          onClick={handleSave}
           color="primary"
           disabled={!partyName}
         >
@@ -46,15 +51,10 @@ const SavePartyDialog = ({ open, onClose, onSave }) => {
   );
 };
 
-SavePartyDialog.defaultProps = {
-  onClose: () => {},
-  onSave: () => {},
-};
-
 SavePartyDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func,
-  onSave: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 export default SavePartyDialog;

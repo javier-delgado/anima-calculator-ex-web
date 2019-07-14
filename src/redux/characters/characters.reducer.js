@@ -2,7 +2,8 @@ import { ADD_CHARACTER,
   UPDATE_CHARACTER,
   SORT_CHARACTERS,
   ROLL_INITIATIVE_FOR_ALL,
-  REMOVE_CHARACTER } from './characters.constants';
+  REMOVE_CHARACTER,
+  REPLACE_CHARACTERS } from './characters.constants';
 
 const EMPTY_CHARACTER = {
   uid: Date.now(),
@@ -47,6 +48,8 @@ const charactersReducer = (state = initialState, action) => {
       return action.sorted;
     case ROLL_INITIATIVE_FOR_ALL:
       return action.charactersWithNewInitiative;
+    case REPLACE_CHARACTERS:
+      return action.newCharacters;
     default:
       return state;
   }

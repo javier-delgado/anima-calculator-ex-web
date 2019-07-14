@@ -7,7 +7,9 @@ import SortIcon from '@material-ui/icons/Sort';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import SavePartyDialog from '../../savePartyDialog/SavePartyDialog';
+import LoadPartyDialog from '../../loadPartyDialog/LoadPartyDialog';
 import partyPersistence from '../../../domain/partyPesistence';
+import { actionReplaceCharacters } from '../../../redux/characters/characters.actions';
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
@@ -28,21 +30,36 @@ const useToolbarStyles = makeStyles(theme => ({
   },
 }));
 
-const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAll }) => {
+const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAll, replaceCharacters }) => {
   const classes = useToolbarStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
-  const open = Boolean(anchorEl);
+  const [loadDialogOpen, setLoadDialogOpen] = useState(false);
+  const [storedParties, setStoredParties] = useState([]);
+  const menuOpen = Boolean(anchorEl);
 
   const handleMenu = (event) => { setAnchorEl(event.currentTarget); };
 
-  const handleClose = () => { setAnchorEl(null); };
+  const handleCloseMenu = () => { setAnchorEl(null); };
 
   const handleSaveDialogClose = () => setSaveDialogOpen(false);
 
-  const handlePartySave = partyName => () => {
+  const handleLoadDialogClose = () => setLoadDialogOpen(false);
+
+  const handlePartySave = (partyName) => {
     partyPersistence.save(partyName, characters);
     setSaveDialogOpen(false);
+  };
+
+  const handlePartyLoad = partyName => () => {
+    replaceCharacters(partyPersistence.load(partyName));
+    setLoadDialogOpen(false);
+  };
+
+  const handleOpenLoadDialog = () => {
+    setStoredParties(partyPersistence.partyList());
+    setLoadDialogOpen(true);
+    handleCloseMenu();
   };
 
   const handleOpenSaveDialog = () => setSaveDialogOpen(true);
@@ -102,15 +119,16 @@ const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAl
             vertical: 'top',
             horizontal: 'right',
           }}
-          open={open}
-          onClose={handleClose}
+          open={menuOpen}
+          onClose={handleCloseMenu}
         >
-          <MenuItem onClick={handleClose}>Cargar Party</MenuItem>
-          <MenuItem onClick={handleClose}>Limpiar party actual</MenuItem>
+          <MenuItem onClick={handleOpenLoadDialog}>Cargar Party</MenuItem>
+          <MenuItem onClick={handleCloseMenu}>Limpiar party actual</MenuItem>
         </Menu>
       </Toolbar>
 
       <SavePartyDialog open={saveDialogOpen} onClose={handleSaveDialogClose} onSave={handlePartySave} />
+      <LoadPartyDialog open={loadDialogOpen} onClose={handleLoadDialogClose} onPartyLoad={handlePartyLoad} parties={storedParties} />
     </>
   );
 };
@@ -120,6 +138,7 @@ CharacterListButtonsBar.propTypes = {
   onNewCharacter: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
   onnRollAll: PropTypes.func.isRequired,
+  replaceCharacters: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -127,6 +146,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = ({
+  replaceCharacters: actionReplaceCharacters,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(memo(CharacterListButtonsBar));
