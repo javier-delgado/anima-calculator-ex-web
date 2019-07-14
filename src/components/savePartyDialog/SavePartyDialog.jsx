@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,6 +9,10 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
 const SavePartyDialog = ({ open, onClose, onSave }) => {
+  const [partyName, setPartyName] = useState('');
+
+  const onPartyNameChange = event => setPartyName(event.target.value);
+
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Guardar party</DialogTitle>
@@ -22,13 +26,19 @@ const SavePartyDialog = ({ open, onClose, onSave }) => {
           id="party-name"
           fullWidth
           label="Nombre de la party"
+          value={partyName}
+          onChange={onPartyNameChange}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={onSave} color="primary">
+        <Button
+          onClick={onSave(partyName)}
+          color="primary"
+          disabled={!partyName}
+        >
           Guardar
         </Button>
       </DialogActions>

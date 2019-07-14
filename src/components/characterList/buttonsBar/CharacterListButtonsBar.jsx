@@ -1,4 +1,5 @@
 import React, { memo, useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Toolbar, Typography, IconButton, Menu, MenuItem, SvgIcon, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,6 +7,7 @@ import SortIcon from '@material-ui/icons/Sort';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import SavePartyDialog from '../../savePartyDialog/SavePartyDialog';
+import partyPersistence from '../../../domain/partyPesistence';
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
@@ -26,7 +28,7 @@ const useToolbarStyles = makeStyles(theme => ({
   },
 }));
 
-const CharacterListButtonsBar = ({ onNewCharacter, onSort, onnRollAll }) => {
+const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAll }) => {
   const classes = useToolbarStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -38,7 +40,10 @@ const CharacterListButtonsBar = ({ onNewCharacter, onSort, onnRollAll }) => {
 
   const handleSaveDialogClose = () => setSaveDialogOpen(false);
 
-  const handlePartySave = () => setSaveDialogOpen(false);
+  const handlePartySave = partyName => () => {
+    partyPersistence.save(partyName, characters);
+    setSaveDialogOpen(false);
+  };
 
   const handleOpenSaveDialog = () => setSaveDialogOpen(true);
 
@@ -111,9 +116,17 @@ const CharacterListButtonsBar = ({ onNewCharacter, onSort, onnRollAll }) => {
 };
 
 CharacterListButtonsBar.propTypes = {
+  characters: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onNewCharacter: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
   onnRollAll: PropTypes.func.isRequired,
 };
 
-export default memo(CharacterListButtonsBar);
+const mapStateToProps = state => ({
+  characters: state.characters,
+});
+
+const mapDispatchToProps = ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(memo(CharacterListButtonsBar));
