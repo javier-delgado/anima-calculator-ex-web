@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { TableRow, TableCell, TextField, Checkbox, Select, OutlinedInput, MenuItem, Tooltip } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -8,6 +8,7 @@ import { isEqual } from 'lodash';
 import { connect } from 'react-redux';
 import { actionRemoveCharacter, actionUpdateCharacter } from '../../../redux/characters/characters.actions';
 
+import ConfirmationDialog from '../../confirmationDialog/ConfirmationDialog';
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import Surprise from './surprise/Surprise';
 import DiceRoller from '../../../domain/diceRoller';
@@ -42,6 +43,11 @@ const diceRoller = new DiceRoller();
  */
 const CharacterRow = ({ characterUid, character, order, removeCharacter, updateCharacter }) => {
   const classes = useStyles();
+  const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+
+  const handleRemoveDialogClose = () => setRemoveDialogOpen(false);
+
+  const handleRemoveDialoOpenn = () => setRemoveDialogOpen(true);
 
   const handleStatChange = name => value => updateCharacter(character, { [name]: value });
 
@@ -52,7 +58,7 @@ const CharacterRow = ({ characterUid, character, order, removeCharacter, updateC
     );
   };
 
-  const handleRemoveCharacterClick = () => removeCharacter(character);
+  const handleRemoveCharacter = () => removeCharacter(character);
 
   const handleInitiativeRollClick = () => {
     const { finalResult, fumbleLevel } = diceRoller.perform();
@@ -192,11 +198,19 @@ const CharacterRow = ({ characterUid, character, order, removeCharacter, updateC
         </TableCell>
         {/* RemoveCharacter */}
         <TableCell align="center">
-          <IconButton aria-label="Delete" color="secondary" onClick={handleRemoveCharacterClick}>
+          <IconButton aria-label="Delete" color="secondary" onClick={handleRemoveDialoOpenn}>
             <DeleteIcon fontSize="small" />
           </IconButton>
         </TableCell>
       </TableRow>
+
+      <ConfirmationDialog
+        open={removeDialogOpen}
+        onConfirm={handleRemoveCharacter}
+        onClose={handleRemoveDialogClose}
+        title="Eliminar personaje"
+        content={`¿Estás seguro que quieres eliminar a ${character.name}?`}
+      />
     </>
   );
 };
