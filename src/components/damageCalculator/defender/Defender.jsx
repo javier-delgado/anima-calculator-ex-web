@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Box, Select, MenuItem, Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox, OutlinedInput, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
+import React from 'react';
+import { Box, Select, Grid, MenuItem, Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox, OutlinedInput, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { sumBy, max } from 'lodash';
+import PropTypes from 'prop-types';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -16,8 +16,7 @@ const useStyles = makeStyles(theme => ({
     width: '50%',
   },
   statInput: {
-    marginTop: 6,
-    marginBottom: 6,
+    width: '100%',
   },
   modifiers: {
     marginTop: 6,
@@ -32,142 +31,125 @@ const useStyles = makeStyles(theme => ({
 
 const diceRoller = new DiceRoller();
 
-const Defender = () => {
+const Defender = ({ data, onChange }) => {
   const classes = useStyles();
-  const [state, setState] = useState({
-    roll: 0,
-    fumbleLevel: 0,
-    baseDefense: 0,
-    ta: 0,
-    consecutiveDefense: 1,
-    modifiers: [],
-  });
 
   const handleStateChange = field => (newValue) => {
-    setState({
-      ...state,
+    onChange({
+      ...data,
       [field]: newValue,
     });
   };
 
   const handleTAChange = (event) => {
-    setState({
-      ...state,
+    onChange({
+      ...data,
       ta: event.target.value,
     });
   };
 
   const handleConsecutiveDefenseChange = (event) => {
-    setState({
-      ...state,
+    onChange({
+      ...data,
       consecutiveDefense: event.target.value,
     });
   };
 
   const handleDefenseRollClick = () => {
     const { finalResult, fumbleLevel } = diceRoller.perform();
-    setState({ ...state, roll: finalResult, fumbleLevel });
+    onChange({ ...data, roll: finalResult, fumbleLevel });
   };
 
   const handleModifierTogle = modifier => () => {
-    const currentIndex = state.modifiers.indexOf(modifier);
+    const currentIndex = data.modifiers.indexOf(modifier);
 
-    const newState = { ...state, modifiers: [...state.modifiers] };
+    const newData = { ...data, modifiers: [...data.modifiers] };
     if (currentIndex === -1) {
-      newState.modifiers.push(modifier);
+      newData.modifiers.push(modifier);
     } else {
-      newState.modifiers.splice(currentIndex, 1);
+      newData.modifiers.splice(currentIndex, 1);
     }
 
-    setState(newState);
+    onChange(newData);
   };
 
-  const totalDefense = () => {
-    let defenseSum = state.baseDefense + state.roll + consecutiveDefensePenalty() + sumBy(state.modifiers, mod => DEFENSE_MODIFIERS[mod]);
-    if (defenseFumbled()) defenseSum -= state.fumbleLevel;
-
-    if (state.baseDefense + state.roll >= 0) return max([defenseSum, 0]);
-    return defenseSum;
-  };
-
-  const defenseFumbled = () => state.fumbleLevel > 0;
+  const defenseFumbled = () => data.fumbleLevel > 0;
 
   const composeDefenseText = () => {
-    let text = `Defense ${totalDefense()}`;
-    if (defenseFumbled()) text = text.concat(` (nvl pifia: ${state.fumbleLevel})`);
+    let text = `Defensa ${data.totalDefense}`;
+    if (defenseFumbled()) text = text.concat(` (nvl pifia: ${data.fumbleLevel})`);
     return text;
-  };
-
-  const consecutiveDefensePenalty = () => {
-    switch (state.consecutiveDefense) {
-      case 1: return 0;
-      case 2: return -30;
-      case 3: return -50;
-      case 4: return -70;
-      case 5: return -90;
-      default: return 0;
-    }
   };
 
   return (
     <Box className={classes.root}>
       <Typography gutterBottom>{composeDefenseText()}</Typography>
-      <CharacterStatInput
-        className={classes.statInput}
-        initialStatValue={state.roll}
-        onStatChange={handleStateChange('roll')}
-        label="Tirada de defensa"
-        onRoll={handleDefenseRollClick}
-        withRollButton
-      />
       <br />
-      <CharacterStatInput
-        className={classes.statInput}
-        initialStatValue={state.fumbleLevel}
-        onStatChange={handleStateChange('fumbleLevel')}
-        label="Nivel de pifia"
-      />
-      <br />
-      <CharacterStatInput
-        className={classes.statInput}
-        initialStatValue={state.baseDefense}
-        onStatChange={handleStateChange('baseDefense')}
-        label="Defensa base"
-      />
-      <br />
-      <Select
-        value={state.ta}
-        onChange={handleTAChange}
-        input={<OutlinedInput name="ta" id="ta" />}
-      >
-        <MenuItem value={0}>TA 0</MenuItem>
-        <MenuItem value={1}>TA 1</MenuItem>
-        <MenuItem value={2}>TA 2</MenuItem>
-        <MenuItem value={3}>TA 3</MenuItem>
-        <MenuItem value={4}>TA 4</MenuItem>
-        <MenuItem value={5}>TA 5</MenuItem>
-        <MenuItem value={6}>TA 6</MenuItem>
-        <MenuItem value={7}>TA 7</MenuItem>
-        <MenuItem value={8}>TA 8</MenuItem>
-        <MenuItem value={9}>TA 9</MenuItem>
-        <MenuItem value={10}>TA 10</MenuItem>
-        <MenuItem value={11}>TA 11</MenuItem>
-        <MenuItem value={12}>TA 12</MenuItem>
-      </Select>
-      <br />
-      <RadioGroup
-        aria-label="Gender"
-        name="gender1"
-        className={classes.rGroup}
-        value={state.consecutiveDefense}
-        onChange={handleConsecutiveDefenseChange}
-      >
-        <FormControlLabel value="1" control={<Radio />} label="1º" />
-        <FormControlLabel value="2" control={<Radio />} label="2º" />
-        <FormControlLabel value="3" control={<Radio />} label="3º" />
-        <FormControlLabel value="4" control={<Radio />} label="4º" />
-        <FormControlLabel value="5" control={<Radio />} label="5º+" />
-      </RadioGroup>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <CharacterStatInput
+            className={classes.statInput}
+            initialStatValue={data.roll}
+            onStatChange={handleStateChange('roll')}
+            label="Tirada de defensa"
+            onRoll={handleDefenseRollClick}
+            withRollButton
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CharacterStatInput
+            className={classes.statInput}
+            initialStatValue={data.fumbleLevel}
+            onStatChange={handleStateChange('fumbleLevel')}
+            label="Nivel de pifia"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CharacterStatInput
+            className={classes.statInput}
+            initialStatValue={data.baseDefense}
+            onStatChange={handleStateChange('baseDefense')}
+            label="Defensa base"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <Select
+            className={classes.statInput}
+            value={data.ta}
+            onChange={handleTAChange}
+            input={<OutlinedInput name="ta" id="ta" />}
+          >
+            <MenuItem value={0}>TA 0</MenuItem>
+            <MenuItem value={1}>TA 1</MenuItem>
+            <MenuItem value={2}>TA 2</MenuItem>
+            <MenuItem value={3}>TA 3</MenuItem>
+            <MenuItem value={4}>TA 4</MenuItem>
+            <MenuItem value={5}>TA 5</MenuItem>
+            <MenuItem value={6}>TA 6</MenuItem>
+            <MenuItem value={7}>TA 7</MenuItem>
+            <MenuItem value={8}>TA 8</MenuItem>
+            <MenuItem value={9}>TA 9</MenuItem>
+            <MenuItem value={10}>TA 10</MenuItem>
+            <MenuItem value={11}>TA 11</MenuItem>
+            <MenuItem value={12}>TA 12</MenuItem>
+          </Select>
+        </Grid>
+        <Grid item xs={12}>
+          <RadioGroup
+            aria-label="Gender"
+            name="gender1"
+            className={classes.rGroup}
+            value={data.consecutiveDefense}
+            onChange={handleConsecutiveDefenseChange}
+          >
+            <FormControlLabel value="1" control={<Radio />} label="1º" />
+            <FormControlLabel value="2" control={<Radio />} label="2º" />
+            <FormControlLabel value="3" control={<Radio />} label="3º" />
+            <FormControlLabel value="4" control={<Radio />} label="4º" />
+            <FormControlLabel value="5" control={<Radio />} label="5º+" />
+          </RadioGroup>
+        </Grid>
+      </Grid>
       <br />
       <Typography>Modificadores</Typography>
       <List className={classes.modifiers} dense>
@@ -179,7 +161,7 @@ const Defender = () => {
               <ListItemIcon>
                 <Checkbox
                   edge="start"
-                  checked={state.modifiers.indexOf(modifier) !== -1}
+                  checked={data.modifiers.indexOf(modifier) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
@@ -193,6 +175,18 @@ const Defender = () => {
       </List>
     </Box>
   );
+};
+
+Defender.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    roll: PropTypes.number,
+    fumbleLevel: PropTypes.number,
+    baseDefense: PropTypes.number,
+    ta: PropTypes.number,
+    consecutiveDefense: PropTypes.string,
+    modifiers: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
 };
 
 export default Defender;

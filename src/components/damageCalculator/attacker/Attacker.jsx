@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox } from '@material-ui/core';
+import React from 'react';
+import { Box, Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { sumBy, max } from 'lodash';
+import PropTypes from 'prop-types';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -16,8 +17,7 @@ const useStyles = makeStyles(theme => ({
     width: '50%',
   },
   statInput: {
-    marginTop: 6,
-    marginBottom: 6,
+    width: '100%',
   },
   modifiers: {
     marginTop: 6,
@@ -28,83 +28,82 @@ const useStyles = makeStyles(theme => ({
 
 const diceRoller = new DiceRoller();
 
-const Attacker = () => {
+const Attacker = ({ onChange, data }) => {
   const classes = useStyles();
-  const [state, setState] = useState({
-    roll: 0,
-    fumbleLevel: 0,
-    baseAttack: 0,
-    damage: 0,
-    modifiers: [],
-  });
 
   const handleStateChange = field => (newValue) => {
-    setState({
-      ...state,
+    onChange({
+      ...data,
       [field]: newValue,
     });
   };
 
   const handleAttackRollClick = () => {
     const { finalResult, fumbleLevel } = diceRoller.perform();
-    setState({ ...state, roll: finalResult, fumbleLevel });
+    onChange({ ...data, roll: finalResult, fumbleLevel });
   };
 
   const handleModifierTogle = modifier => () => {
-    const currentIndex = state.modifiers.indexOf(modifier);
+    const currentIndex = data.modifiers.indexOf(modifier);
 
-    const newState = { ...state, modifiers: [...state.modifiers] };
+    const newData = { ...data, modifiers: [...data.modifiers] };
     if (currentIndex === -1) {
-      newState.modifiers.push(modifier);
+      newData.modifiers.push(modifier);
     } else {
-      newState.modifiers.splice(currentIndex, 1);
+      newData.modifiers.splice(currentIndex, 1);
     }
 
-    setState(newState);
+    onChange(newData);
   };
 
-  const totalAttack = () => max([state.baseAttack + state.roll + sumBy(state.modifiers, mod => ATTACK_MODIFIERS[mod]), 0]);
-
-  const attackerFumbled = () => state.fumbleLevel > 0;
+  const attackerFumbled = () => data.fumbleLevel > 0;
 
   const composeAttackText = () => {
-    let text = `Ataque ${totalAttack()}`;
-    if (attackerFumbled()) text = text.concat(` (nvl pifia: ${state.fumbleLevel})`);
+    let text = `Ataque ${data.totalAttack}`;
+    if (attackerFumbled()) text = text.concat(` (nvl pifia: ${data.fumbleLevel})`);
     return text;
   };
 
   return (
     <Box className={classes.root}>
       <Typography gutterBottom>{composeAttackText()}</Typography>
-      <CharacterStatInput
-        className={classes.statInput}
-        initialStatValue={state.roll}
-        onStatChange={handleStateChange('roll')}
-        label="Tirada de ataque"
-        onRoll={handleAttackRollClick}
-        withRollButton
-      />
       <br />
-      <CharacterStatInput
-        className={classes.statInput}
-        initialStatValue={state.fumbleLevel}
-        onStatChange={handleStateChange('fumbleLevel')}
-        label="Nivel de pifia"
-      />
-      <br />
-      <CharacterStatInput
-        className={classes.statInput}
-        initialStatValue={state.baseAttack}
-        onStatChange={handleStateChange('baseAttack')}
-        label="Ataque base"
-      />
-      <br />
-      <CharacterStatInput
-        className={classes.statInput}
-        initialStatValue={state.damage}
-        onStatChange={handleStateChange('damage')}
-        label="Daño"
-      />
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <CharacterStatInput
+            className={classes.statInput}
+            initialStatValue={data.roll}
+            onStatChange={handleStateChange('roll')}
+            label="Tirada de ataque"
+            onRoll={handleAttackRollClick}
+            withRollButton
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CharacterStatInput
+            className={classes.statInput}
+            initialStatValue={data.fumbleLevel}
+            onStatChange={handleStateChange('fumbleLevel')}
+            label="Nivel de pifia"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CharacterStatInput
+            className={classes.statInput}
+            initialStatValue={data.baseAttack}
+            onStatChange={handleStateChange('baseAttack')}
+            label="Ataque base"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <CharacterStatInput
+            className={classes.statInput}
+            initialStatValue={data.damage}
+            onStatChange={handleStateChange('damage')}
+            label="Daño"
+          />
+        </Grid>
+      </Grid>
       <br />
       <Typography>Modificadores</Typography>
       <List className={classes.modifiers} dense>
@@ -116,7 +115,7 @@ const Attacker = () => {
               <ListItemIcon>
                 <Checkbox
                   edge="start"
-                  checked={state.modifiers.indexOf(modifier) !== -1}
+                  checked={data.modifiers.indexOf(modifier) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
@@ -130,6 +129,18 @@ const Attacker = () => {
       </List>
     </Box>
   );
+};
+
+Attacker.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    roll: PropTypes.number,
+    fumbleLevel: PropTypes.number,
+    baseAttack: PropTypes.number,
+    damage: PropTypes.number,
+    modifiers: PropTypes.arrayOf(PropTypes.string),
+    totalAttack: PropTypes.number,
+  }).isRequired,
 };
 
 export default Attacker;

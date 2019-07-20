@@ -92,11 +92,11 @@ const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, on
 
   return (
     <TextField
-      {...other}
       className={classes.textInput}
       onChange={handleChange}
       value={statText}
       InputProps={inputProps}
+      {...other}
     />
   );
 };
