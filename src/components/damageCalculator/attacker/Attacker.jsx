@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, ListSubheader, List, ListItem, ListItemText, ListItemIcon, Checkbox } from '@material-ui/core';
+import { Box, Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { sumBy } from 'lodash';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -35,6 +36,8 @@ const Attacker = () => {
     modifiers: [],
   });
 
+  const totalAttack = () => state.baseAttack + state.roll + sumBy(state.modifiers, mod => ATTACK_MODIFIERS[mod]);
+
   const handleStateChange = field => (newValue) => {
     setState({
       ...state,
@@ -47,10 +50,22 @@ const Attacker = () => {
     setState({ ...state, roll: finalResult });
   };
 
-  const handleModifierTogle = modifier => () => {};
+  const handleModifierTogle = modifier => () => {
+    const currentIndex = state.modifiers.indexOf(modifier);
+
+    const newState = { ...state, modifiers: [...state.modifiers] };
+    if (currentIndex === -1) {
+      newState.modifiers.push(modifier);
+    } else {
+      newState.modifiers.splice(currentIndex, 1);
+    }
+
+    setState(newState);
+  };
 
   return (
     <Box className={classes.root}>
+      <Typography gutterBottom>{`Ataque ${totalAttack()}`}</Typography>
       <CharacterStatInput
         className={classes.statInput}
         initialStatValue={state.roll}
@@ -74,7 +89,8 @@ const Attacker = () => {
         label="Daño"
       />
       <br />
-      <List subheader={<ListSubheader>Modificadores</ListSubheader>} className={classes.modifiers}>
+      <Typography>Modificadores</Typography>
+      <List className={classes.modifiers}>
         {Object.keys(ATTACK_MODIFIERS).map((modifier) => {
           const labelId = `checkbox-list-label-${modifier}`;
 
@@ -83,13 +99,14 @@ const Attacker = () => {
               <ListItemIcon>
                 <Checkbox
                   edge="start"
-                  checked={false}
+                  checked={state.modifiers.indexOf(modifier) !== -1}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={modifier} />
+              <Typography>{ATTACK_MODIFIERS[modifier]}</Typography>
             </ListItem>
           );
         })}
