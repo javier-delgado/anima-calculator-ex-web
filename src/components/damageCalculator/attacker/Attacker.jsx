@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { sumBy } from 'lodash';
+import { sumBy, max } from 'lodash';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -31,12 +31,11 @@ const Attacker = () => {
   const classes = useStyles();
   const [state, setState] = useState({
     roll: 0,
+    fumbleLevel: 0,
     baseAttack: 0,
     damage: 0,
     modifiers: [],
   });
-
-  const totalAttack = () => state.baseAttack + state.roll + sumBy(state.modifiers, mod => ATTACK_MODIFIERS[mod]);
 
   const handleStateChange = field => (newValue) => {
     setState({
@@ -47,7 +46,7 @@ const Attacker = () => {
 
   const handleAttackRollClick = () => {
     const { finalResult, fumbleLevel } = diceRoller.perform();
-    setState({ ...state, roll: finalResult });
+    setState({ ...state, roll: finalResult, fumbleLevel });
   };
 
   const handleModifierTogle = modifier => () => {
@@ -63,9 +62,19 @@ const Attacker = () => {
     setState(newState);
   };
 
+  const totalAttack = () => max([state.baseAttack + state.roll + sumBy(state.modifiers, mod => ATTACK_MODIFIERS[mod]), 0]);
+
+  const attackerFumbled = () => state.fumbleLevel > 0;
+
+  const composeAttackText = () => {
+    let text = `Ataque ${totalAttack()}`;
+    if (attackerFumbled()) text = text.concat(` (nvl pifia: ${state.fumbleLevel})`);
+    return text;
+  };
+
   return (
     <Box className={classes.root}>
-      <Typography gutterBottom>{`Ataque ${totalAttack()}`}</Typography>
+      <Typography gutterBottom>{composeAttackText()}</Typography>
       <CharacterStatInput
         className={classes.statInput}
         initialStatValue={state.roll}
@@ -73,6 +82,13 @@ const Attacker = () => {
         label="Tirada de ataque"
         onRoll={handleAttackRollClick}
         withRollButton
+      />
+      <br />
+      <CharacterStatInput
+        className={classes.statInput}
+        initialStatValue={state.fumbleLevel}
+        onStatChange={handleStateChange('fumbleLevel')}
+        label="Nivel de pifia"
       />
       <br />
       <CharacterStatInput
@@ -90,7 +106,7 @@ const Attacker = () => {
       />
       <br />
       <Typography>Modificadores</Typography>
-      <List className={classes.modifiers}>
+      <List className={classes.modifiers} dense>
         {Object.keys(ATTACK_MODIFIERS).map((modifier) => {
           const labelId = `checkbox-list-label-${modifier}`;
 
