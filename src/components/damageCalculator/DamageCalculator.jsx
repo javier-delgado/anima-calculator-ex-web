@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
-import { sumBy, max } from 'lodash';
+import { sumBy, max, min, ceil } from 'lodash';
 
 import Attacker from './attacker/Attacker';
 import Defender from './defender/Defender';
@@ -59,56 +59,74 @@ const DamageCalculator = () => {
     return defenseSum;
   };
 
-  const onAttackerChange = (newData) => {
+  const calculateDamagePercentage = (result, defenderData) => {
+    const absDifference = result - (20 + defenderData.ta * 10);
+    return absDifference / 10 * 10;
+  };
+
+  const calculateDamageDealt = (damagePercentage, attackerDamage) => parseInt(ceil(damagePercentage * attackerDamage / 100), 10);
+
+  const onAttackerChange = (newAtkData) => {
     setState({
       ...state,
-      ...composeText(newData),
-      attackerData: { ...newData, totalAttack: totalAttack(newData) },
+      ...composeText(newAtkData, state.defenderData),
+      attackerData: { ...newAtkData, totalAttack: totalAttack(newAtkData) },
     });
   };
 
-  const onDefenderChange = (newData) => {
+  const onDefenderChange = (newDefData) => {
     setState({
       ...state,
-      ...composeText(newData),
-      defenderData: { ...newData, totalDefense: totalDefense(newData) },
+      ...composeText(state.attackerData, newDefData),
+      defenderData: { ...newDefData, totalDefense: totalDefense(newDefData) },
     });
   };
 
-  const composeText = () => {
-//     const result = 
-//     if
+  const composeText = (attackerData, defenderData) => {
+    const result = totalAttack(attackerData) - totalDefense(defenderData);
+    const attackerFumbled = attackerData.fumbleLevel > 0;
+    const defenderFumbled = defenderData.fumbleLevel > 0;
 
-//     when {
-//       result == 0 || (attackerFumbled && defenderFumbled) -> {
-//         noCombatResult()
-//       }
-//         (result < 0 || attackerFumbled) && !defenderFumbled -> {
-//           val counterAttackBonus = - result / 10 * 5
-//                 counterAttackResult(
-//             when {
-//               counterAttackBonus > 150 -> 150
-//       counterAttackBonus < 0 -> 0
-//                         else -> counterAttackBonus
-//                     }
-//                 )
-//             }
-//             else -> {
-//   val percentage: Int = combat.calculateDamagePercentage()
-//                 val damageDealt: Int = combat.calculateDamageDealt()
+    if (attackerFumbled && !defenderFumbled) {
+      return counterAttackText(attackerData.fumbleLevel);
+    }
 
-//                 if(percentage > 0)
-// attackWinsResult(percentage, damageDealt)
-//                 else
-// defenseWinsResult()
-//             }
-//         }
+    if (result === 0 || (attackerFumbled && defenderFumbled)) {
+      return noCombatText();
+    }
 
-    return {
-      mainText: '-',
-      secondaryText: '-',
-    };
+    if (result < 0 && !defenderFumbled && !attackerFumbled) {
+      let counterAttackBonus = parseInt(-result / 10, 10) * 5;
+      counterAttackBonus = max([counterAttackBonus, 0]);
+      counterAttackBonus = min([counterAttackBonus, 150]);
+      return counterAttackText(counterAttackBonus);
+    }
+
+    const percentage = calculateDamagePercentage(result, defenderData);
+    const damageDealt = calculateDamageDealt(percentage, attackerData.damage);
+
+    return percentage > 0 ? attackerWinsResult(percentage, damageDealt, attackerData) : defenderWinsResult();
   };
+
+  const noCombatText = () => ({
+    mainText: 'No pasa nada',
+    secondaryText: '-',
+  });
+
+  const counterAttackText = counterAttackBonus => ({
+    mainText: counterAttackBonus > 0 ? `Contraataque con +${counterAttackBonus} de bonus` : 'Contrataque sin bonus',
+    secondaryText: '-',
+  });
+
+  const defenderWinsResult = () => ({
+    mainText: 'A la defensiva',
+    secondaryText: '-',
+  });
+
+  const attackerWinsResult = (percentage, damageDealt, attackerData) => ({
+    mainText: `Daño causado: ${damageDealt}`,
+    secondaryText: `${percentage}% causado de ${attackerData.damage} daño total`,
+  });
 
   return (
     <>

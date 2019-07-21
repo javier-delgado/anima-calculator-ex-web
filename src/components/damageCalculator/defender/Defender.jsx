@@ -1,11 +1,11 @@
-import React from 'react';
-import { Box, Select, Grid, MenuItem, Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox, OutlinedInput, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
+import React, { memo } from 'react';
+import { Box, Select, Grid, MenuItem, Typography, OutlinedInput, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
-import { DEFENSE_MODIFIERS } from '../../../domain/modifiers.constants';
+import ModifiersList from '../modifiersList/ModifiersList'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -151,28 +151,7 @@ const Defender = ({ data, onChange }) => {
         </Grid>
       </Grid>
       <br />
-      <Typography>Modificadores</Typography>
-      <List className={classes.modifiers} dense>
-        {Object.keys(DEFENSE_MODIFIERS).map((modifier) => {
-          const labelId = `checkbox-list-label-${modifier}`;
-
-          return (
-            <ListItem key={modifier} role={undefined} dense button onClick={handleModifierTogle(modifier)}>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={data.modifiers.indexOf(modifier) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
-                />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={modifier} />
-              <Typography>{DEFENSE_MODIFIERS[modifier]}</Typography>
-            </ListItem>
-          );
-        })}
-      </List>
+      <ModifiersList modifiers={data.modifiers} onSelect={handleModifierTogle} />
     </Box>
   );
 };
@@ -185,8 +164,9 @@ Defender.propTypes = {
     baseDefense: PropTypes.number,
     ta: PropTypes.number,
     consecutiveDefense: PropTypes.string,
+    totalDefense: PropTypes.number,
     modifiers: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
 
-export default Defender;
+export default memo(Defender);
