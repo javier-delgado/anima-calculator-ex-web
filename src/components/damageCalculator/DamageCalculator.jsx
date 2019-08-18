@@ -5,10 +5,15 @@ import { sumBy, max, min, ceil } from 'lodash';
 
 import Attacker from './attacker/Attacker';
 import Defender from './defender/Defender';
+import Critical from './critical/Critical';
 import { ATTACK_MODIFIERS, DEFENSE_MODIFIERS } from '../../domain/modifiers.constants';
 
 const useStyles = makeStyles(() => ({
   root: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  top: {
     textAlign: 'center',
   },
   bottom: {
@@ -31,6 +36,7 @@ const DamageCalculator = () => {
   const [state, setState] = useState({
     mainText: '-',
     secondaryText: '-',
+    finalDamage: 0,
     attackerData: {
       roll: 0,
       fumbleLevel: 0,
@@ -112,34 +118,43 @@ const DamageCalculator = () => {
   const noCombatText = () => ({
     mainText: 'No pasa nada',
     secondaryText: '-',
+    finalDamage: 0,
   });
 
   const counterAttackText = counterAttackBonus => ({
     mainText: counterAttackBonus > 0 ? `Contraataque con +${counterAttackBonus} de bonus` : 'Contrataque sin bonus',
     secondaryText: '-',
+    finalDamage: 0,
   });
 
   const defenderWinsResult = () => ({
     mainText: 'A la defensiva',
     secondaryText: '-',
+    finalDamage: 0,
   });
 
   const attackerWinsResult = (percentage, damageDealt, attackerData) => ({
     mainText: `Daño causado: ${damageDealt}`,
     secondaryText: `${percentage}% causado de ${attackerData.damage} daño total`,
+    finalDamage: damageDealt,
   });
 
   return (
-    <>
-      <Box className={classes.root}>
-        <Typography>{state.secondaryText}</Typography>
-        <Typography variant="h5">{state.mainText}</Typography>
+    <Box className={classes.root}>
+      <Box>
+        <Box className={classes.top}>
+          <Typography>{state.secondaryText}</Typography>
+          <Typography variant="h5">{state.mainText}</Typography>
+        </Box>
+        <Box className={classes.bottom}>
+          <Attacker data={state.attackerData} onChange={onAttackerChange} />
+          <Defender data={state.defenderData} onChange={onDefenderChange} />
+        </Box>
       </Box>
-      <Box className={classes.bottom}>
-        <Attacker data={state.attackerData} onChange={onAttackerChange} />
-        <Defender data={state.defenderData} onChange={onDefenderChange} />
+      <Box className={classes.right}>
+        <Critical suggestedDamage={state.finalDamage} />
       </Box>
-    </>
+    </Box>
   );
 };
 

@@ -21,8 +21,8 @@ const DEFAULT_ROLL = {
 };
 
 class DiceRoller {
-  constructor() {
-    this.defaultRollConfig = { ...DEFAULT_DICE_ROLL_CONFIG };
+  constructor(options) {
+    this.defaultRollConfig = { ...DEFAULT_DICE_ROLL_CONFIG, ...options };
   }
 
   perform() {
