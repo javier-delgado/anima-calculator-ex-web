@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
   bottom: {
     display: 'flex',
     flexDirection: 'row',
+    height: '100%',
   },
 }));
 

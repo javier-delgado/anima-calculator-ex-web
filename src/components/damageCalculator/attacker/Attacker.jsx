@@ -1,11 +1,13 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import { Box, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
-import ModifiersList from '../modifiersList/ModifiersList'
+import ModifiersList from '../modifiersList/ModifiersList';
+import { ATTACK_MODIFIERS } from '../../../domain/modifiers.constants';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +24,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: 6,
     flex: 1,
     overflowY: 'scroll',
+  },
+  inputGrid: {
+    marginBottom: 42,
   },
 }));
 
@@ -67,7 +72,7 @@ const Attacker = ({ onChange, data }) => {
     <Box className={classes.root}>
       <Typography gutterBottom>{composeAttackText()}</Typography>
       <br />
-      <Grid container spacing={2}>
+      <Grid container spacing={2} className={classes.inputGrid}>
         <Grid item xs={6}>
           <CharacterStatInput
             className={classes.statInput}
@@ -104,7 +109,7 @@ const Attacker = ({ onChange, data }) => {
         </Grid>
       </Grid>
       <br />
-      <ModifiersList modifiers={data.modifiers} onSelect={handleModifierTogle} />
+      <ModifiersList modifiers={ATTACK_MODIFIERS} selectedModifiers={data.modifiers} onSelect={handleModifierTogle} />
     </Box>
   );
 };

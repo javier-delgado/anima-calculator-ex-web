@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
-import ModifiersList from '../modifiersList/ModifiersList'
+import ModifiersList from '../modifiersList/ModifiersList';
+import { DEFENSE_MODIFIERS } from '../../../domain/modifiers.constants';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -151,7 +153,7 @@ const Defender = ({ data, onChange }) => {
         </Grid>
       </Grid>
       <br />
-      <ModifiersList modifiers={data.modifiers} onSelect={handleModifierTogle} />
+      <ModifiersList modifiers={DEFENSE_MODIFIERS} selectedModifiers={data.modifiers} onSelect={handleModifierTogle} />
     </Box>
   );
 };
