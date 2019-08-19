@@ -4,12 +4,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
+import { Paper, Box } from '@material-ui/core';
 import ReactGA from 'react-ga';
 import Container from '@material-ui/core/Container';
 import CharacterList from './components/characterList/CharacterList';
 import theme from './materialTheme';
-import MainAppBar from './components/mainAppBar/MainAppBar';
+// import MainAppBar from './components/mainAppBar/MainAppBar';
 import DamageCalculator from './components/damageCalculator/DamageCalculator';
 
 ReactGA.initialize(process.env.REACT_APP_ANAYLTICS_ID);
@@ -28,15 +28,16 @@ const useStyles = makeStyles(() => ({
     flex: '0 0 49%',
     width: '100%',
     overflow: 'hidden',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
   bottom: {
     display: 'flex',
     flexDirection: 'column',
-    flex: '0 0 49%',
+    flex: '0 0 50%',
     width: '100%',
     overflow: 'hidden',
-    marginTop: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
   },
 }));
 
@@ -51,9 +52,9 @@ function App() {
         <Paper className={classes.top}>
           <CharacterList />
         </Paper>
-        <Paper className={classes.bottom}>
+        <Box className={classes.bottom}>
           <DamageCalculator />
-        </Paper>
+        </Box>
       </Container>
     </ThemeProvider>
   );

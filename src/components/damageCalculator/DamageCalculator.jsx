@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,10 +8,11 @@ import Attacker from './attacker/Attacker';
 import Defender from './defender/Defender';
 import Critical from './critical/Critical';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'row',
+    height: '100%',
   },
   top: {
     textAlign: 'center',
@@ -21,6 +22,9 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'row',
     height: '100%',
   },
+  right: {
+    marginLeft: theme.spacing(2),
+  },
 }));
 
 const DamageCalculator = ({ mainText, secondaryText, finalDamage }) => {
@@ -28,7 +32,7 @@ const DamageCalculator = ({ mainText, secondaryText, finalDamage }) => {
 
   return (
     <Box className={classes.root}>
-      <Box>
+      <Paper>
         <Box className={classes.top}>
           <Typography>{secondaryText}</Typography>
           <Typography variant="h5">{mainText}</Typography>
@@ -37,10 +41,10 @@ const DamageCalculator = ({ mainText, secondaryText, finalDamage }) => {
           <Attacker />
           <Defender />
         </Box>
-      </Box>
-      <Box className={classes.right}>
+      </Paper>
+      <Paper className={classes.right}>
         <Critical suggestedDamage={finalDamage} />
-      </Box>
+      </Paper>
     </Box>
   );
 };
@@ -48,7 +52,7 @@ const DamageCalculator = ({ mainText, secondaryText, finalDamage }) => {
 DamageCalculator.propTypes = {
   mainText: PropTypes.string.isRequired,
   secondaryText: PropTypes.string.isRequired,
-  finalDamage: PropTypes.number.isRequired,
+  finalDamage: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({ mainText: state.calculator.mainText, secondaryText: state.calculator.secondaryText, finalDamage: state.calculator.finalDamage });
