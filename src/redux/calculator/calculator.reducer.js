@@ -40,7 +40,7 @@ const calculatorReducer = (state = initialState, action) => {
       const newAttackerData = { ...state.attackerData, ...action.changes };
       return {
         ...state,
-        ...composeText(state.attackerData, newAttackerData),
+        ...composeText(newAttackerData, state.defenderData),
         attackerData: {
           ...newAttackerData,
           totalAttack: totalAttack(newAttackerData),

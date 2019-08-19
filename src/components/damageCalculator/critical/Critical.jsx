@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Box, Typography, Grid } from '@material-ui/core';
+import { Box, Typography, Grid, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
@@ -121,6 +121,9 @@ const Attacker = ({ suggestedDamage }) => {
             onRoll={handleRollClick('attackerRoll')}
             withRollButton
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Divider variant="middle" />
         </Grid>
         <Grid item xs={12}>
           {`Defensa (${state.txtTotalResistance})`}

@@ -56,7 +56,7 @@ const DamageCalculator = ({ mainText, secondaryText, finalDamage }) => {
 DamageCalculator.propTypes = {
   mainText: PropTypes.string.isRequired,
   secondaryText: PropTypes.string.isRequired,
-  finalDamage: PropTypes.string.isRequired,
+  finalDamage: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({ mainText: state.calculator.mainText, secondaryText: state.calculator.secondaryText, finalDamage: state.calculator.finalDamage });
