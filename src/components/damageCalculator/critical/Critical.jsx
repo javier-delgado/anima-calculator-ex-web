@@ -41,11 +41,12 @@ const Attacker = ({ suggestedDamage }) => {
   });
 
   useEffect(() => {
-    setState({ ...state, damage: suggestedDamage, attackerRoll: 0, defenderRoll: 0, resFis: 0 });
+    setState(s => ({ ...s, damage: suggestedDamage, attackerRoll: 0, defenderRoll: 0, resFis: 0 }));
   }, [suggestedDamage]);
 
   useEffect(() => {
     composeText();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.attackerRoll, state.defenderRoll, state.resFis, state.damage]);
 
   const handleRollClick = which => () => {

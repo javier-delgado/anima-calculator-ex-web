@@ -1,12 +1,14 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Box, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
 import ModifiersList from '../modifiersList/ModifiersList';
 import { ATTACK_MODIFIERS } from '../../../domain/modifiers.constants';
+import { actionUpdateAttackerData } from '../../../redux/calculator/calculator.actions';
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,32 +34,29 @@ const useStyles = makeStyles(theme => ({
 
 const diceRoller = new DiceRoller();
 
-const Attacker = ({ onChange, data }) => {
+const Attacker = ({ data, updateAttackerData }) => {
   const classes = useStyles();
 
   const handleStateChange = field => (newValue) => {
-    onChange({
-      ...data,
-      [field]: newValue,
-    });
+    updateAttackerData({ [field]: newValue });
   };
 
   const handleAttackRollClick = () => {
     const { finalResult, fumbleLevel } = diceRoller.perform();
-    onChange({ ...data, roll: finalResult, fumbleLevel });
+    updateAttackerData({ roll: finalResult, fumbleLevel });
   };
 
   const handleModifierTogle = modifier => () => {
     const currentIndex = data.modifiers.indexOf(modifier);
 
-    const newData = { ...data, modifiers: [...data.modifiers] };
+    const newModifiers = [...data.modifiers];
     if (currentIndex === -1) {
-      newData.modifiers.push(modifier);
+      newModifiers.push(modifier);
     } else {
-      newData.modifiers.splice(currentIndex, 1);
+      newModifiers.splice(currentIndex, 1);
     }
 
-    onChange(newData);
+    updateAttackerData({ modifiers: newModifiers });
   };
 
   const attackerFumbled = () => data.fumbleLevel > 0;
@@ -115,7 +114,7 @@ const Attacker = ({ onChange, data }) => {
 };
 
 Attacker.propTypes = {
-  onChange: PropTypes.func.isRequired,
+  updateAttackerData: PropTypes.func.isRequired,
   data: PropTypes.shape({
     roll: PropTypes.number,
     fumbleLevel: PropTypes.number,
@@ -126,4 +125,10 @@ Attacker.propTypes = {
   }).isRequired,
 };
 
-export default memo(Attacker);
+const mapStateToProps = state => ({ data: state.calculator.attackerData });
+
+const mapDispatchToProps = {
+  updateAttackerData: actionUpdateAttackerData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Attacker);

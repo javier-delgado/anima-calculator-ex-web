@@ -1,12 +1,14 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Box, Select, Grid, MenuItem, Typography, OutlinedInput, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
 import ModifiersList from '../modifiersList/ModifiersList';
 import { DEFENSE_MODIFIERS } from '../../../domain/modifiers.constants';
+import { actionUpdateDefenderData } from '../../../redux/calculator/calculator.actions';
 
 
 const useStyles = makeStyles(theme => ({
@@ -33,46 +35,31 @@ const useStyles = makeStyles(theme => ({
 
 const diceRoller = new DiceRoller();
 
-const Defender = ({ data, onChange }) => {
+const Defender = ({ data, updateDefenderData }) => {
   const classes = useStyles();
 
-  const handleStateChange = field => (newValue) => {
-    onChange({
-      ...data,
-      [field]: newValue,
-    });
-  };
+  const handleStateChange = field => newValue => updateDefenderData({ [field]: newValue });
 
-  const handleTAChange = (event) => {
-    onChange({
-      ...data,
-      ta: event.target.value,
-    });
-  };
+  const handleTAChange = event => updateDefenderData({ ta: event.target.value });
 
-  const handleConsecutiveDefenseChange = (event) => {
-    onChange({
-      ...data,
-      consecutiveDefense: event.target.value,
-    });
-  };
+  const handleConsecutiveDefenseChange = event => updateDefenderData({ consecutiveDefense: event.target.value });
 
   const handleDefenseRollClick = () => {
     const { finalResult, fumbleLevel } = diceRoller.perform();
-    onChange({ ...data, roll: finalResult, fumbleLevel });
+    updateDefenderData({ roll: finalResult, fumbleLevel });
   };
 
   const handleModifierTogle = modifier => () => {
     const currentIndex = data.modifiers.indexOf(modifier);
 
-    const newData = { ...data, modifiers: [...data.modifiers] };
+    const newModifiers = [...data.modifiers];
     if (currentIndex === -1) {
-      newData.modifiers.push(modifier);
+      newModifiers.push(modifier);
     } else {
-      newData.modifiers.splice(currentIndex, 1);
+      newModifiers.splice(currentIndex, 1);
     }
 
-    onChange(newData);
+    updateDefenderData({ modifiers: newModifiers });
   };
 
   const defenseFumbled = () => data.fumbleLevel > 0;
@@ -159,7 +146,7 @@ const Defender = ({ data, onChange }) => {
 };
 
 Defender.propTypes = {
-  onChange: PropTypes.func.isRequired,
+  updateDefenderData: PropTypes.func.isRequired,
   data: PropTypes.shape({
     roll: PropTypes.number,
     fumbleLevel: PropTypes.number,
@@ -171,4 +158,10 @@ Defender.propTypes = {
   }).isRequired,
 };
 
-export default memo(Defender);
+const mapStateToProps = state => ({ data: state.calculator.defenderData });
+
+const mapDispatchToProps = {
+  updateDefenderData: actionUpdateDefenderData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Defender);
