@@ -116,7 +116,7 @@ const attackerWinsResult = (percentage, damageDealt, attackerData) => ({
 
 const calculateDamagePercentage = (result, defenderData) => {
   const absDifference = result - (20 + defenderData.ta * 10);
-  return absDifference / 10 * 10;
+  return parseInt(absDifference / 10, 10) * 10;
 };
 
 const calculateDamageDealt = (damagePercentage, attackerDamage) => parseInt(ceil(damagePercentage * attackerDamage / 100), 10);
