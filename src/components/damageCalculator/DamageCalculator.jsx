@@ -16,6 +16,10 @@ const useStyles = makeStyles(theme => ({
   },
   top: {
     textAlign: 'center',
+    color: '#FFF',
+    backgroundImage: 'linear-gradient(to right, #BA4C17 , #831804)',
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
   },
   bottom: {
     display: 'flex',

@@ -9,18 +9,22 @@ import DiceRoller from '../../../domain/diceRoller';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2),
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
   titles: {
     textAlign: 'center',
+    color: '#FFF',
+    backgroundImage: 'linear-gradient(to right, #BA4C17 , #831804)',
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
   },
   statInput: {
     width: '100%',
   },
   inputGrid: {
+    padding: theme.spacing(2),
     width: '240px',
   },
 }));
@@ -96,7 +100,6 @@ const Attacker = ({ suggestedDamage }) => {
         <Typography>{state.txtSecondaryHeader}</Typography>
         <Typography variant="h5">{state.txtMainHeader}</Typography>
       </Box>
-      <br />
       <Grid container spacing={2} className={classes.inputGrid}>
         <Grid item xs={12}>
           {`Attaque (${state.txtCritLevel})`}

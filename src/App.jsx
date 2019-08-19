@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
   top: {
     display: 'flex',
     flexDirection: 'column',
-    flex: '0 0 49%',
+    flex: 1,
     width: '100%',
     overflow: 'hidden',
     marginBottom: theme.spacing(1),
@@ -33,7 +33,6 @@ const useStyles = makeStyles(() => ({
   bottom: {
     display: 'flex',
     flexDirection: 'column',
-    flex: '0 0 50%',
     width: '100%',
     overflow: 'hidden',
     paddingBottom: theme.spacing(1),
