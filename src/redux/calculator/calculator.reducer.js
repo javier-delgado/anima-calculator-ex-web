@@ -1,4 +1,5 @@
 import { sumBy, max, min, ceil } from 'lodash';
+import i18n from '../../i18n';
 
 import { UPDATE_ATTACKER_DATA, UPDATE_DEFENDER_DATA } from './calculator.constants';
 import { ATTACK_MODIFIERS, DEFENSE_MODIFIERS } from '../../domain/modifiers.constants';
@@ -91,26 +92,26 @@ const composeText = (attackerData, defenderData) => {
 };
 
 const noCombatText = () => ({
-  mainText: 'No pasa nada',
+  mainText: i18n.t('nothing_happens'),
   secondaryText: '-',
   finalDamage: 0,
 });
 
 const counterAttackText = counterAttackBonus => ({
-  mainText: counterAttackBonus > 0 ? `Contraataque con +${counterAttackBonus} de bonus` : 'Contrataque sin bonus',
+  mainText: counterAttackBonus > 0 ? i18n.t('counter_attack_bonus_', { bonus: counterAttackBonus }) : i18n.t('counter_attack_without_bonus'),
   secondaryText: '-',
   finalDamage: 0,
 });
 
 const defenderWinsResult = () => ({
-  mainText: 'A la defensiva',
+  mainText: i18n.t('defensive'),
   secondaryText: '-',
   finalDamage: 0,
 });
 
 const attackerWinsResult = (percentage, damageDealt, attackerData) => ({
-  mainText: `Daño causado: ${damageDealt}`,
-  secondaryText: `${percentage}% causado de ${attackerData.damage} daño total`,
+  mainText: i18n.t('damage_dealt_', { damage: damageDealt }),
+  secondaryText: i18n.t('percentage_caused_out_of_', { damage: attackerData.damage, percentage }),
   finalDamage: damageDealt,
 });
 

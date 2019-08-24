@@ -67,5 +67,11 @@
   },
   "overwrite_party_explanation": "If a party with the same name already exists, it'll be overwritten",
   "party_name": "Party name",
-  "save": "Save"
+  "save": "Save",
+  "nothing_happens": "Nothing happens",
+  "counter_attack_bonus_": "Counterattack with +{{bonus}} bonus",
+  "counter_attack_without_bonus": "Counterattack without bonus",
+  "defensive": "Defensive",
+  "damage_dealt_": "Damage dealt: {{damage}}",
+  "percentage_caused_out_of_": "{{percentage}}% out of {{damage}} total damage"
 }
