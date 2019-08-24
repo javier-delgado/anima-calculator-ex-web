@@ -9,6 +9,7 @@ import ReactGA from 'react-ga';
 import Container from '@material-ui/core/Container';
 import CharacterList from './components/characterList/CharacterList';
 import theme from './materialTheme';
+import MobileWarning from './components/mobileWarning';
 // import MainAppBar from './components/mainAppBar/MainAppBar';
 import DamageCalculator from './components/damageCalculator/DamageCalculator';
 
@@ -55,6 +56,7 @@ function App() {
           <DamageCalculator />
         </Box>
       </Container>
+      <MobileWarning />
     </ThemeProvider>
   );
 }
