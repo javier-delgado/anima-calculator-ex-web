@@ -51,7 +51,7 @@ const ModifiersList = ({ selectedModifiers, modifiers, onSelect }) => {
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
-            <ListItemText id={labelId} primary={modifier} />
+            <ListItemText id={labelId} primary={t(`modifiers.${modifier}`)} />
             <Typography>{modifiers[modifier]}</Typography>
           </ListItem>
         );

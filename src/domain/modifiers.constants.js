@@ -1,119 +1,119 @@
 /* eslint-disable quote-props */
 export const ATTACK_MODIFIERS = {
-  'A la defensiva': -30,
-  'A la ofensiva': 10,
-  'Adversario diminuto': -20,
-  'Adversario pequeño': -10,
-  'Amenazado': -20,
-  'Apuntar abdomen': -20,
-  'Apuntar brazo': -20,
-  'Apuntar cabeza': -60,
-  'Apuntar codo': -60,
-  'Apuntar corazón': -60,
-  'Apuntar cuello': -80,
-  'Apuntar hombro': -30,
-  'Apuntar ingle': -60,
-  'Apuntar mano': -40,
-  'Apuntar muñeca': -40,
-  'Apuntar muslo': -20,
-  'Apuntar ojo': -100,
-  'Apuntar pantorrilla': -10,
-  'Apuntar pie': -50,
-  'Apuntar rodilla': -40,
-  'Apuntar torso': -10,
-  'Cargando': 10,
-  'Ceguera absoluta': -100,
-  'Ceguera parcial': -30,
-  'Con arma distinta o desarmado': -60,
-  'Con arma mixta': -40,
-  'Con arma similar': -20,
-  'Crítico secundario': -10,
-  'Derribado': -30,
-  'Desarmar ': -40,
-  'Desenfundar': -25,
-  'Dolor': -40,
-  'Dolor extremo': -80,
-  'Espacio reducido': -40,
-  'Espalda': -30,
-  'Fatiga: 4 puntos restantes': -10,
-  'Fatiga: 3 puntos restantes': -20,
-  'Fatiga: 2 puntos restantes': -40,
-  'Fatiga: 1 punto restante': -80,
-  'Fatiga: 0 puntos restantes': -120,
-  'Flanco': -10,
-  'Levitando': -20,
-  'Miedo': -60,
-  'Ofensiva total': 30,
-  'Parálisis completa': -200,
-  'Parálisis menor': -20,
-  'Parálisis parcial': -80,
-  'Posición superior': 20,
-  'Presa': -40,
-  'Proyectil: A bocajarro': 30,
-  'Proyectil: Apuntar por 1 turno': 10,
-  'Proyectil: Apuntar por 2 turnos': 20,
-  'Proyectil: Apuntar por 3 turnos': 30,
-  'Proyectil: Blanco grande': 30,
-  'Proyectil: Cambiar de blanco': -10,
-  'Proyectil: Defendió en el mismo asalto': -40,
-  'Proyectil: Desplazándose a más de un cuarto del movimiento': -10,
-  'Proyectil: El blanco se mueve a más de 8': -20,
-  'Proyectil: El blanco se mueve a 10': -40,
-  'Proyectil: El blanco se mueve a más de 10': -60,
-  'Proyectil: El blanco tiene cobertura': -40,
-  'Proyectil: Escasa visibilidad': -20,
-  'Proyectil: Moviendose al máximo del movimiento': -50,
-  'Proyectil: Por encima del alcance del arma': -30,
-  'Vuelo 7-14': 10,
-  'Vuelo tipo 15': 15,
+  'defensive': -30, // 'A la defensiva'
+  'offensive': 10, // 'A la ofensiva'
+  'tiny_enemy': -20, // 'Adversario diminuto'
+  'small_enemy': -10, // 'Adversario pequeño'
+  'put_at_weapons_point': -20, // 'Amenazado'
+  'aim_abdomen': -20, // 'Apuntar abdomen'
+  'aim_arm': -20, // 'Apuntar brazo'
+  'aim_head': -60, // 'Apuntar cabeza'
+  'aim_elbow': -60, // 'Apuntar codo'
+  'aim_heart': -60, // 'Apuntar corazón'
+  'aim_neck': -80, // 'Apuntar cuello'
+  'aim_shoulder': -30, // 'Apuntar hombro'
+  'aim_crotch': -60, // 'Apuntar ingle'
+  'aim_hand': -40, // 'Apuntar mano'
+  'aim_wrist': -40, // 'Apuntar muñeca'
+  'aim_tigh': -20, // 'Apuntar muslo'
+  'aim_eye': -100, // 'Apuntar ojo'
+  'aim_calve': -10, // 'Apuntar pantorrilla'
+  'aim_foot': -50, // 'Apuntar pie'
+  'aim_knee': -40, // 'Apuntar rodilla'
+  'aim_torso': -10, // 'Apuntar torso'
+  'charging': 10, // 'Cargando'
+  'vision_totally_obscured': -100, // 'Ceguera absoluta'
+  'vision_partially_obscured': -30, // 'Ceguera parcial'
+  'with_different_weapon_or_unarmed': -60, // 'Con arma distinta o desarmado'
+  'double_weapon': -40, // 'Con arma mixta'
+  'similar_weapon': -20, // 'Con arma similar'
+  'secondary_crit': -10, // 'Crítico secundario'
+  'from_ground': -30, // 'Derribado'
+  'disarm': -40, // 'Desarmar '
+  'drawing_weapon': -25, // 'Desenfundar'
+  'pain': -40, // 'Dolor'
+  'extreme_pain': -80, // 'Dolor extremo'
+  'crowded_space': -40, // 'Espacio reducido'
+  'from_behind': -30, // 'Espalda'
+  'fatigue_4_points_left': -10, // 'Fatiga: 4 puntos restantes'
+  'fatigue_3_points_left': -20, // 'Fatiga: 3 puntos restantes'
+  'fatigue_2_points_left': -40, // 'Fatiga: 2 puntos restantes'
+  'fatigue_1_points_left': -80, // 'Fatiga: 1 punto restante'
+  'fatigue_0_points_left': -120, // 'Fatiga: 0 puntos restantes'
+  'flank': -10, // 'Flanco'
+  'levitating': -20, // 'Levitando'
+  'fear': -60, // 'Miedo'
+  'total_offensive': 30, // 'Ofensiva total'
+  'fully_immobilized': -200, // 'Parálisis completa'
+  'partially_immobilized': -20, // 'Parálisis menor'
+  'mostly_immobilized': -80, // 'Parálisis parcial'
+  'higher_ground': 20, // 'Posición superior'
+  'grab': -40, // 'Presa'
+  'projectile_at_point_blank': 30, // 'Proyectil: A bocajarro'
+  'projectile_aim_for_1_turn': 10, // 'Proyectil: Apuntar por 1 turno'
+  'projectile_aim_for_2_turns': 20, // 'Proyectil: Apuntar por 2 turnos'
+  'projectile_aim_for_3_turns': 30, // 'Proyectil: Apuntar por 3 turnos'
+  'projectile_big_target': 30, // 'Proyectil: Blanco grande'
+  'projectile_change_target': -10, // 'Proyectil: Cambiar de blanco'
+  'projectile_defended_on_that_assault': -40, // 'Proyectil: Defendió en el mismo asalto'
+  'projectile_move_faster_than_a_quarter_of_movement': -10, // 'Proyectil: Desplazándose a más de un cuarto del movimiento'
+  'projectile_target_moves_faster_than_8': -20, // 'Proyectil: El blanco se mueve a más de 8'
+  'projectile_target_moves_at_10': -40, // 'Proyectil: El blanco se mueve a 10'
+  'projectile_target_moves_faster_than_10': -60, // 'Proyectil: El blanco se mueve a más de 10'
+  'projectile_target_has_cover': -40, // 'Proyectil: El blanco tiene cobertura'
+  'projectile_low_visibility': -20, // 'Proyectil: Escasa visibilidad'
+  'projectile_move_at_max_movement': -50, // 'Proyectil: Moviendose al máximo del movimiento'
+  'projectile_beyond_weapon_reach': -30, // 'Proyectil: Por encima del alcance del arma'
+  'flight_7_14': 10, // 'Vuelo 7-14'
+  'flight_type_15': 15, // 'Vuelo tipo 15'
 };
 
 export const DEFENSE_MODIFIERS = {
-  'A la defensiva': 10,
-  'A la ofensiva': -30,
-  'Adversario diminuto (Parada)': -10,
-  'Aguantar golpe': -80,
-  'Amenazado': -120,
-  'Ataque de energía (Parada)': -120,
-  'Ataque de área (Parada)': -120,
-  'Ataque de área (Esquiva)': -80,
-  'Cargando (Parada)': -10,
-  'Cargando (Esquiva)': -20,
-  'Ceguera absoluta': -80,
-  'Ceguera parcial (Parada)': -30,
-  'Ceguera parcial (Esquiva)': -15,
-  'Con arma distinta': -60,
-  'Defensa Total': 30,
-  'Derribado': -30,
-  'Desenfundar': -25,
-  'Dolor': -40,
-  'Dolor extremo': -80,
-  'Espacio reducido': -40,
-  'Espalda': -80,
-  'Fatiga: 4 puntos restantes': -10,
-  'Fatiga: 3 puntos restantes': -20,
-  'Fatiga: 2 puntos restantes': -40,
-  'Fatiga: 1 punto restante': -80,
-  'Fatiga: 0 puntos restantes': -120,
-  'Flanqueado': -30,
-  'Levitando (Parada)': -20,
-  'Levitando (Esquiva)': -40,
-  'Miedo': -60,
-  'Parálisis menor (Parada)': -20,
-  'Parálisis menor (Esquiva)': -40,
-  'Parálisis parcial': -80,
-  'Parálisis completa': -200,
-  'Proyectiles disparados (Parada)': -80,
-  'Proyectiles disparados (M.P.)': -20,
-  'Proyectiles disparados (Escudo)': -30,
-  'Proyectiles disparados (Esquiva)': -30,
-  'Proyectil lanzado (Parada)': -50,
-  'Seraphite base': -30,
-  'Seraphite arcano': -50,
-  'Shephon base': 60,
-  'Shephon arcano': 100,
-  'Sorpresa': -90,
-  'Vuelo 7-14': 10,
-  'Vuelo 15 (Parada)': 10,
-  'Vuelo 15 (Esquiva)': 20,
+  'defensive': 10, // 'A la defensiva'
+  'offensive': -30, // 'A la ofensiva'
+  'tiny_enemy_block': -10, // 'Adversario diminuto (Parada)'
+  'endure_hit': -80, // 'Aguantar golpe'
+  'put_at_weapons_point': -120, // 'Amenazado'
+  'energy_attack_block': -120, // 'Ataque de energía (Parada)'
+  'area_attack_block': -120, // 'Ataque de área (Parada)'
+  'area_attack_dodge': -80, // 'Ataque de área (Esquiva)'
+  'charging_block': -10, // 'Cargando (Parada)'
+  'charging_dodge': -20, // 'Cargando (Esquiva)'
+  'vision_totally_obscured': -80, // 'Ceguera absoluta'
+  'vision_partially_obscured_block': -30, // 'Ceguera parcial (Parada)'
+  'vision_partially_obscured_dodge': -15, // 'Ceguera parcial (Esquiva)'
+  'with_different_weapon': -60, // 'Con arma distinta'
+  'total_defense': 30, // 'Defensa Total'
+  'from_ground': -30, // 'Derribado'
+  'drawing_weapon': -25, // 'Desenfundar'
+  'pain': -40, // 'Dolor'
+  'extreme_pain': -80, // 'Dolor extremo'
+  'crowded_space': -40, // 'Espacio reducido'
+  'from_behind': -80, // 'Espalda'
+  'fatigue_4_points_left': -10, // 'Fatiga: 4 puntos restantes'
+  'fatigue_3_points_left': -20, // 'Fatiga: 3 puntos restantes'
+  'fatigue_2_points_left': -40, // 'Fatiga: 2 puntos restantes'
+  'fatigue_1_points_left': -80, // 'Fatiga: 1 punto restante'
+  'fatigue_0_points_left': -120, // 'Fatiga: 0 puntos restantes'
+  'flank': -30, // 'Flanqueado'
+  'levitating_block': -20, // 'Levitando (Parada)'
+  'levitating_dodge': -40, // 'Levitando (Esquiva)'
+  'fear': -60, // 'Miedo'
+  'partially_immobilized_block': -20, // 'Parálisis menor (Parada)'
+  'partially_immobilized_dodge': -40, // 'Parálisis menor (Esquiva)'
+  'mostly_immobilized': -80, // 'Parálisis parcial'
+  'totally_immobilized': -200, // 'Parálisis completa'
+  'fired_projectiles_block': -80, // 'Proyectiles disparados (Parada)'
+  'fired_projectiles_m_p': -20, // 'Proyectiles disparados (M.P.)'
+  'fired_projectiles_shield': -30, // 'Proyectiles disparados (Escudo)'
+  'fired_projectiles_dodge': -30, // 'Proyectiles disparados (Esquiva)'
+  'thrown_projectile_block': -50, // 'Proyectil lanzado (Parada)'
+  'base_seraphite': -30, // 'Seraphite base'
+  'arcane_seraphite': -50, // 'Seraphite arcano'
+  'base_shephon': 60, // 'Shephon base'
+  'arcane_shephon': 100, // 'Shephon arcano'
+  'surprise': -90, // 'Sorpresa'
+  'flight_7_14': 10, // 'Vuelo 7-14'
+  'flight_15_block': 15, // 'Vuelo tipo 15'
+  'flight_15_dodge': 15, // 'Vuelo tipo 15'
 };
