@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { sumBy } from 'lodash';
+import { sumBy, sortBy } from 'lodash';
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() => ({
@@ -35,24 +35,30 @@ const ModifiersList = ({ selectedModifiers, modifiers, onSelect }) => {
 
   const modifiersTotal = () => sumBy(selectedModifiers, mod => modifiers[mod]);
 
+  const translatedModifiers = () => sortBy(Object.keys(modifiers).map(modifier => ({
+    key: modifier,
+    value: modifiers[modifier],
+    text: t(`modifiers.${modifier}`),
+  })), item => item.text);
+
   const renderList = () => (
     <List className={classes.modifiers} dense>
-      {Object.keys(modifiers).map((modifier) => {
-        const labelId = `checkbox-list-label-${modifier}`;
+      {translatedModifiers().map((item) => {
+        const labelId = `checkbox-list-label-${item.key}`;
 
         return (
-          <ListItem key={modifier} role={undefined} dense button onClick={onSelect(modifier)}>
+          <ListItem key={item.key} role={undefined} dense button onClick={onSelect(item.key)}>
             <ListItemIcon>
               <Checkbox
                 edge="start"
-                checked={selectedModifiers.indexOf(modifier) !== -1}
+                checked={selectedModifiers.indexOf(item.key) !== -1}
                 tabIndex={-1}
                 disableRipple
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
-            <ListItemText id={labelId} primary={t(`modifiers.${modifier}`)} />
-            <Typography>{modifiers[modifier]}</Typography>
+            <ListItemText id={labelId} primary={item.text} />
+            <Typography>{item.value}</Typography>
           </ListItem>
         );
       })}
