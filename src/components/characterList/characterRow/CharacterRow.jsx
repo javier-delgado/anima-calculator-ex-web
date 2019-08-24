@@ -6,8 +6,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import { isEqual } from 'lodash';
 import { connect } from 'react-redux';
-import { actionRemoveCharacter, actionUpdateCharacter } from '../../../redux/characters/characters.actions';
+import { useTranslation } from 'react-i18next';
 
+import { actionRemoveCharacter, actionUpdateCharacter } from '../../../redux/characters/characters.actions';
 import ConfirmationDialog from '../../confirmationDialog/ConfirmationDialog';
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import Surprise from './surprise/Surprise';
@@ -42,6 +43,7 @@ const diceRoller = new DiceRoller();
  * @return {React.Component}
  */
 const CharacterRow = ({ characterUid, character, order, removeCharacter, updateCharacter }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
@@ -159,11 +161,11 @@ const CharacterRow = ({ characterUid, character, order, removeCharacter, updateC
             onStatChange={handleStatChange('ki')}
           />
         </TableCell>
-        {/* Xeon */}
+        {/* Zeon */}
         <TableCell align="center">
           <CharacterStatInput
-            initialStatValue={character.xeon}
-            onStatChange={handleStatChange('xeon')}
+            initialStatValue={character.zeon}
+            onStatChange={handleStatChange('zeon')}
           />
         </TableCell>
         {/* CV */}
@@ -181,9 +183,9 @@ const CharacterRow = ({ characterUid, character, order, removeCharacter, updateC
             input={<OutlinedInput />}
             className={classes.naturaSelect}
           >
-            <MenuItem value="Natura +0">Natura +0</MenuItem>
-            <MenuItem value="Natura +5/+10">Natura +5/+10</MenuItem>
-            <MenuItem value="Natura +15">Natura +15</MenuItem>
+            <MenuItem value="Natura +0">{t('natura_0')}</MenuItem>
+            <MenuItem value="Natura +5/+10">{t('natura_5_10')}</MenuItem>
+            <MenuItem value="Natura +15">{t('natura_15')}</MenuItem>
           </Select>
         </TableCell>
         {/* Notas */}
@@ -208,8 +210,8 @@ const CharacterRow = ({ characterUid, character, order, removeCharacter, updateC
         open={removeDialogOpen}
         onConfirm={handleRemoveCharacter}
         onClose={handleRemoveDialogClose}
-        title="Eliminar personaje"
-        content={`¿Estás seguro que quieres eliminar a ${character.name}?`}
+        title={t('delete_character')}
+        content={t('are_you_sure_to_delete_char', { character_name: character.name })}
       />
     </>
   );
@@ -220,7 +222,7 @@ const characterShape = PropTypes.shape({
   hp: PropTypes.number,
   fatigue: PropTypes.number,
   ki: PropTypes.number,
-  xeon: PropTypes.number,
+  zeon: PropTypes.number,
   cv: PropTypes.number,
   natura: PropTypes.string,
   notes: PropTypes.string,

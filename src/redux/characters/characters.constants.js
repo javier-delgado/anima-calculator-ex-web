@@ -11,7 +11,7 @@ export const EMPTY_CHARACTER = {
   hp: 0,
   fatigue: 0,
   ki: 0,
-  xeon: 0,
+  zeon: 0,
   cv: 0,
   natura: 'Natura +5/+10',
   notes: '',

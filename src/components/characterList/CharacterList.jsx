@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Box from '@material-ui/core/Box';
 import { TableCell, Tooltip } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import { actionAddCharacter,
   actionSortCharacters,
@@ -37,6 +38,7 @@ const useStyles = makeStyles(() => ({
  * @return {React.Component}
  */
 const CharacterList = ({ characters, addCharacter, sortCharacters, rollInitiativeForAll }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   const handleNewCharacter = () => addCharacter();
@@ -56,27 +58,27 @@ const CharacterList = ({ characters, addCharacter, sortCharacters, rollInitiativ
         <Table className={classes.table} size="small">
           <TableHead className={classes.tableHead}>
             <TableRow>
-              <TableCell>Ord.</TableCell>
-              <TableCell>Nombre</TableCell>
-              <Tooltip title="Los enemigos no se persisten al guardar la party" placement="bottom">
+              <TableCell>{t('ord')}</TableCell>
+              <TableCell>{t('name')}</TableCell>
+              <Tooltip title={t('enemies_not_persisted')} placement="bottom">
                 <TableCell>
-                    Enemigo
+                  {t('enemy')}
                 </TableCell>
               </Tooltip>
-              <TableCell className={classes.initiativeCell}>Uroboros</TableCell>
-              <TableCell className={classes.initiativeCell}>Iniciativa total</TableCell>
-              <TableCell className={classes.initiativeCell}>Tirada</TableCell>
-              <TableCell className={classes.initiativeCell}>Turno</TableCell>
-              <TableCell className={classes.initiativeCell}>Pifia</TableCell>
-              <TableCell className={classes.initiativeCell}>Sorprendido por</TableCell>
-              <TableCell className={classes.initiativeCell}>Sorprende a</TableCell>
-              <TableCell>Vida</TableCell>
-              <TableCell>Cansancio</TableCell>
-              <TableCell>Ki</TableCell>
-              <TableCell>Xeon</TableCell>
-              <TableCell>CV</TableCell>
-              <TableCell>Natura</TableCell>
-              <TableCell>Notas</TableCell>
+              <TableCell className={classes.initiativeCell}>{t('uroboros')}</TableCell>
+              <TableCell className={classes.initiativeCell}>{t('total_initiative')}</TableCell>
+              <TableCell className={classes.initiativeCell}>{t('roll')}</TableCell>
+              <TableCell className={classes.initiativeCell}>{t('turn')}</TableCell>
+              <TableCell className={classes.initiativeCell}>{t('fumble')}</TableCell>
+              <TableCell className={classes.initiativeCell}>{t('surprised_by')}</TableCell>
+              <TableCell className={classes.initiativeCell}>{t('surprises')}</TableCell>
+              <TableCell>{t('LP')}</TableCell>
+              <TableCell>{t('fatigue')}</TableCell>
+              <TableCell>{t('ki')}</TableCell>
+              <TableCell>{t('zeon')}</TableCell>
+              <TableCell>{t('PP')}</TableCell>
+              <TableCell>{t('natura')}</TableCell>
+              <TableCell>{t('notes')}</TableCell>
               <TableCell />
             </TableRow>
           </TableHead>
@@ -100,7 +102,7 @@ const characterShape = PropTypes.shape({
   hp: PropTypes.number,
   fatigue: PropTypes.number,
   ki: PropTypes.number,
-  xeon: PropTypes.number,
+  zeon: PropTypes.number,
   cv: PropTypes.number,
   natura: PropTypes.string,
   notes: PropTypes.string,

@@ -7,8 +7,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import { useTranslation, Trans } from 'react-i18next';
 
 const SavePartyDialog = ({ open, onClose, onSave }) => {
+  const { t } = useTranslation();
   const [partyName, setPartyName] = useState('');
 
   const onPartyNameChange = event => setPartyName(event.target.value);
@@ -23,28 +25,28 @@ const SavePartyDialog = ({ open, onClose, onSave }) => {
       <DialogTitle id="form-dialog-title">Guardar party</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Si una party con el mismo nombre ya existe, será sobre-escrita
+          {t('overwrite_party_explanation')}
         </DialogContentText>
         <TextField
           autoFocus
           margin="dense"
           id="party-name"
           fullWidth
-          label="Nombre de la party"
+          label={t('party_name')}
           value={partyName}
           onChange={onPartyNameChange}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancel
+          {t('cancel')}
         </Button>
         <Button
           onClick={handleSave}
           color="primary"
           disabled={!partyName}
         >
-          Guardar
+          {t('save')}
         </Button>
       </DialogActions>
     </Dialog>

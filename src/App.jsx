@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.scss';
 import CssBaseline from '@material-ui/core/CssBaseline';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -13,8 +13,10 @@ import MobileWarning from './components/mobileWarning';
 // import MainAppBar from './components/mainAppBar/MainAppBar';
 import DamageCalculator from './components/damageCalculator/DamageCalculator';
 
-ReactGA.initialize(process.env.REACT_APP_ANAYLTICS_ID);
-ReactGA.pageview('/');
+if (process.env.NODE_ENV !== 'development') {
+  ReactGA.initialize(process.env.REACT_APP_ANAYLTICS_ID);
+  ReactGA.pageview('/');
+}
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -46,17 +48,19 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {/* <MainAppBar /> */}
-      <Container maxWidth="xl" className={classes.container}>
-        <Paper className={classes.top}>
-          <CharacterList />
-        </Paper>
-        <Box className={classes.bottom}>
-          <DamageCalculator />
-        </Box>
-      </Container>
-      <MobileWarning />
+      <Suspense fallback="loading">
+        <CssBaseline />
+        {/* <MainAppBar /> */}
+        <Container maxWidth="xl" className={classes.container}>
+          <Paper className={classes.top}>
+            <CharacterList />
+          </Paper>
+          <Box className={classes.bottom}>
+            <DamageCalculator />
+          </Box>
+        </Container>
+        <MobileWarning />
+      </Suspense>
     </ThemeProvider>
   );
 }

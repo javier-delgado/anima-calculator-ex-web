@@ -6,8 +6,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
+  const { t } = useTranslation();
   const handleConfirm = () => onConfirm();
 
   return (
@@ -20,13 +22,13 @@ const ConfirmationDialog = ({ open, onClose, onConfirm, title, content }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          No
+          {t('no')}
         </Button>
         <Button
           onClick={handleConfirm}
           color="primary"
         >
-          Sí
+          {t('yes')}
         </Button>
       </DialogActions>
     </Dialog>

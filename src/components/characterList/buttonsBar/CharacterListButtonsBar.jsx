@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Toolbar, Typography, IconButton, Menu, MenuItem, SvgIcon, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -33,6 +34,7 @@ const useToolbarStyles = makeStyles(theme => ({
 }));
 
 const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAll, replaceCharacters, clearParty }) => {
+  const { t } = useTranslation();
   const classes = useToolbarStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -94,17 +96,17 @@ const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAl
       <Toolbar className={classes.root} variant="dense">
         <div className={classes.title}>
           <Typography variant="h6" id="tableTitle">
-            Personajes
+            {t('initiative')}
           </Typography>
         </div>
         <div className={classes.spacer} />
         <div className={classes.actions}>
-          <Tooltip title="Agregar nuevo personaje" placement="bottom">
+          <Tooltip title={t('add_new_character')} placement="bottom">
             <IconButton aria-label="Add character" color="inherit" onClick={onNewCharacter}>
               <AddIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Calcular iniciativa para todos" placement="bottom">
+          <Tooltip title={t('roll_initiative_for_all')} placement="bottom">
             <IconButton color="inherit" onClick={onnRollAll} aria-label="Roll initiative">
               <SvgIcon viewBox="0 0 512 512">
                 <path
@@ -113,17 +115,17 @@ const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAl
               </SvgIcon>
             </IconButton>
           </Tooltip>
-          <Tooltip title="Ordenar por iniciativa" placement="bottom">
+          <Tooltip title={t('sort_by_initiative')} placement="bottom">
             <IconButton aria-label="Sort" color="inherit" onClick={onSort}>
               <SortIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Guardar party" placement="bottom">
+          <Tooltip title={t('save_party')} placement="bottom">
             <IconButton aria-label="Save party" color="inherit" onClick={handleOpenSaveDialog}>
               <SaveIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Cargar party" placement="bottom">
+          <Tooltip title={t('load_party')} placement="bottom">
             <IconButton aria-label="Load party" color="inherit" onClick={handleOpenLoadDialog}>
               <OpenIcon />
             </IconButton>
@@ -152,15 +154,15 @@ const CharacterListButtonsBar = ({ characters, onNewCharacter, onSort, onnRollAl
           open={menuOpen}
           onClose={handleCloseMenu}
         >
-          <MenuItem onClick={handleOpenClearDialog}>Limpiar party actual</MenuItem>
-          <MenuItem onClick={handleExportParty}>Exportar party</MenuItem>
-          <MenuItem onClick={handleImportParty}>Importar party</MenuItem>
+          <MenuItem onClick={handleOpenClearDialog}>{t('clear_current_party')}</MenuItem>
+          <MenuItem onClick={handleExportParty}>{t('export_party')}</MenuItem>
+          <MenuItem onClick={handleImportParty}>{t('import_party')}</MenuItem>
         </Menu>
       </Toolbar>
 
       <SavePartyDialog open={saveDialogOpen} onClose={handleSaveDialogClose} onSave={handlePartySave} />
       <LoadPartyDialog open={loadDialogOpen} onClose={handleLoadDialogClose} onPartyLoad={handlePartyLoad} parties={storedParties} />
-      <ConfirmationDialog open={clearDialogOpen} onClose={handleClearDialogClose} onConfirm={handlePartyClear} title="Limpiar party actual" content="¿Estás seguro?" />
+      <ConfirmationDialog open={clearDialogOpen} onClose={handleClearDialogClose} onConfirm={handlePartyClear} title={t('clear_current_party')} content={t('are_you_sure')} />
     </>
   );
 };

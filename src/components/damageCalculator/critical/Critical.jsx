@@ -2,6 +2,7 @@ import React, { memo, useState, useEffect } from 'react';
 import { Box, Typography, Grid, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -32,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 const diceRoller = new DiceRoller({ fumbleEnabled: false, openRollEnabled: false });
 
 const Attacker = ({ suggestedDamage }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [state, setState] = useState({
     attackerRoll: 0,
@@ -66,8 +68,8 @@ const Attacker = ({ suggestedDamage }) => {
     const critLevel = state.damage + state.attackerRoll;
     const totalResistance = state.resFis + state.defenderRoll;
 
-    const txtCritLevel = `Nivel de crítico: ${critLevel}`;
-    const txtTotalResistance = `Res. Fis. total: ${totalResistance}`;
+    const txtCritLevel = t('crit_level', { level: critLevel });
+    const txtTotalResistance = t('total_phys_res', { value: totalResistance });
 
     let txtMainHeader;
     let txtSecondaryHeader;
@@ -75,14 +77,14 @@ const Attacker = ({ suggestedDamage }) => {
       txtMainHeader = '-';
       txtSecondaryHeader = '-';
     } else if (state.defenderRoll === 100) {
-      txtMainHeader = 'El defensor tiró un 100 natural';
-      txtSecondaryHeader = 'El defensor aguanta el golpe crítico';
+      txtMainHeader = t('defender_rolled_100');
+      txtSecondaryHeader = t('defender_endures_critical_hit');
     } else if (totalResistance >= critLevel) {
       txtMainHeader = '-';
-      txtSecondaryHeader = 'El defensor aguanta el golpe crítico';
+      txtSecondaryHeader = t('defender_endures_critical_hit');
     } else {
-      txtMainHeader = `Diferencia: ${critLevel - totalResistance}`;
-      txtSecondaryHeader = 'El atacante hace crítico';
+      txtMainHeader = t('difference_', { value: critLevel - totalResistance });
+      txtSecondaryHeader = t('attacker_deals_critical_hit');
     }
 
     setState({
@@ -102,14 +104,14 @@ const Attacker = ({ suggestedDamage }) => {
       </Box>
       <Grid container spacing={2} className={classes.inputGrid}>
         <Grid item xs={12}>
-          {`Attaque (${state.txtCritLevel})`}
+          {t('attack_value', { value: state.txtCritLevel })}
         </Grid>
         <Grid item xs={12}>
           <CharacterStatInput
             className={classes.statInput}
             initialStatValue={state.damage}
             onStatChange={handleStateChange('damage')}
-            label="Daño"
+            label={t('damage')}
           />
         </Grid>
         <Grid item xs={12}>
@@ -117,7 +119,7 @@ const Attacker = ({ suggestedDamage }) => {
             className={classes.statInput}
             initialStatValue={state.attackerRoll}
             onStatChange={handleStateChange('attackerRoll')}
-            label="Tirada"
+            label={t('roll')}
             onRoll={handleRollClick('attackerRoll')}
             withRollButton
           />
@@ -126,14 +128,14 @@ const Attacker = ({ suggestedDamage }) => {
           <Divider variant="middle" />
         </Grid>
         <Grid item xs={12}>
-          {`Defensa (${state.txtTotalResistance})`}
+          {t('defense_value', { value: state.txtTotalResistance })}
         </Grid>
         <Grid item xs={12}>
           <CharacterStatInput
             className={classes.statInput}
             initialStatValue={state.resFis}
             onStatChange={handleStateChange('resFis')}
-            label="Res. Fís. base"
+            label={t('base_phys_res')}
           />
         </Grid>
         <Grid item xs={12}>
@@ -141,7 +143,7 @@ const Attacker = ({ suggestedDamage }) => {
             className={classes.statInput}
             initialStatValue={state.defenderRoll}
             onStatChange={handleStateChange('defenderRoll')}
-            label="Tirada"
+            label={t('roll')}
             onRoll={handleRollClick('defenderRoll')}
             withRollButton
           />

@@ -7,6 +7,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Typography, List, ListItem, ListItemText, ListItemIcon, Checkbox } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { sumBy } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(() => ({
   modifiers: {
@@ -24,6 +25,7 @@ const ColorButton = withStyles(() => ({
 }))(Button);
 
 const ModifiersList = ({ selectedModifiers, modifiers, onSelect }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -60,15 +62,15 @@ const ModifiersList = ({ selectedModifiers, modifiers, onSelect }) => {
   return (
     <>
       <ColorButton onClick={doOpen}>
-        {`Modificadores (${modifiersTotal()})`}
+        {t('modifiers_total', { total: modifiersTotal() })}
       </ColorButton>
 
       <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">{`Modificadores (${modifiersTotal()})`}</DialogTitle>
+        <DialogTitle id="form-dialog-title">{t('modifiers_total', { total: modifiersTotal() })}</DialogTitle>
         {renderList()}
         <DialogActions>
           <Button onClick={onClose} color="primary">
-            OK
+            {t('ok')}
           </Button>
         </DialogActions>
       </Dialog>

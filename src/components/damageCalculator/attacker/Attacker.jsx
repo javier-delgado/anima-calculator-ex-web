@@ -3,6 +3,7 @@ import { Box, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -35,6 +36,7 @@ const useStyles = makeStyles(theme => ({
 const diceRoller = new DiceRoller();
 
 const Attacker = ({ data, updateAttackerData }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   const handleStateChange = field => (newValue) => {
@@ -62,7 +64,7 @@ const Attacker = ({ data, updateAttackerData }) => {
   const attackerFumbled = () => data.fumbleLevel > 0;
 
   const composeAttackText = () => {
-    let text = `Ataque ${data.totalAttack}`;
+    let text = t('attack_value', { value: data.totalAttack });
     if (attackerFumbled()) text = text.concat(` (nvl pifia: ${data.fumbleLevel})`);
     return text;
   };
@@ -77,7 +79,7 @@ const Attacker = ({ data, updateAttackerData }) => {
             className={classes.statInput}
             initialStatValue={data.roll}
             onStatChange={handleStateChange('roll')}
-            label="Tirada de ataque"
+            label={t('attack_roll')}
             onRoll={handleAttackRollClick}
             withRollButton
           />
@@ -87,7 +89,7 @@ const Attacker = ({ data, updateAttackerData }) => {
             className={classes.statInput}
             initialStatValue={data.fumbleLevel}
             onStatChange={handleStateChange('fumbleLevel')}
-            label="Nivel de pifia"
+            label={t('fumble_level')}
           />
         </Grid>
         <Grid item xs={6}>
@@ -95,7 +97,7 @@ const Attacker = ({ data, updateAttackerData }) => {
             className={classes.statInput}
             initialStatValue={data.baseAttack}
             onStatChange={handleStateChange('baseAttack')}
-            label="Ataque base"
+            label={t('base_attack')}
           />
         </Grid>
         <Grid item xs={6}>
@@ -103,7 +105,7 @@ const Attacker = ({ data, updateAttackerData }) => {
             className={classes.statInput}
             initialStatValue={data.damage}
             onStatChange={handleStateChange('damage')}
-            label="Daño"
+            label={t('damage')}
           />
         </Grid>
       </Grid>

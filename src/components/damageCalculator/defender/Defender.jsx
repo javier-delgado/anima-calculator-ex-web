@@ -3,6 +3,7 @@ import { Box, Select, Grid, MenuItem, Typography, OutlinedInput, RadioGroup, Rad
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -36,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 const diceRoller = new DiceRoller();
 
 const Defender = ({ data, updateDefenderData }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   const handleStateChange = field => newValue => updateDefenderData({ [field]: newValue });
@@ -65,8 +67,8 @@ const Defender = ({ data, updateDefenderData }) => {
   const defenseFumbled = () => data.fumbleLevel > 0;
 
   const composeDefenseText = () => {
-    let text = `Defensa ${data.totalDefense}`;
-    if (defenseFumbled()) text = text.concat(` (nvl pifia: ${data.fumbleLevel})`);
+    let text = t('defense_value', { value: data.totalDefense });
+    if (defenseFumbled()) text = text.concat(' ').concat(t('fumble_level_', { level: data.fumbleLevel }));
     return text;
   };
 
@@ -80,7 +82,7 @@ const Defender = ({ data, updateDefenderData }) => {
             className={classes.statInput}
             initialStatValue={data.roll}
             onStatChange={handleStateChange('roll')}
-            label="Tirada de defensa"
+            label={t('defense_roll')}
             onRoll={handleDefenseRollClick}
             withRollButton
           />
@@ -90,7 +92,7 @@ const Defender = ({ data, updateDefenderData }) => {
             className={classes.statInput}
             initialStatValue={data.fumbleLevel}
             onStatChange={handleStateChange('fumbleLevel')}
-            label="Nivel de pifia"
+            label={t('fumble_level')}
           />
         </Grid>
         <Grid item xs={6}>
@@ -98,7 +100,7 @@ const Defender = ({ data, updateDefenderData }) => {
             className={classes.statInput}
             initialStatValue={data.baseDefense}
             onStatChange={handleStateChange('baseDefense')}
-            label="Defensa base"
+            label={t('base_defense')}
           />
         </Grid>
         <Grid item xs={6}>
@@ -108,34 +110,34 @@ const Defender = ({ data, updateDefenderData }) => {
             onChange={handleTAChange}
             input={<OutlinedInput name="ta" id="ta" />}
           >
-            <MenuItem value={0}>TA 0</MenuItem>
-            <MenuItem value={1}>TA 1</MenuItem>
-            <MenuItem value={2}>TA 2</MenuItem>
-            <MenuItem value={3}>TA 3</MenuItem>
-            <MenuItem value={4}>TA 4</MenuItem>
-            <MenuItem value={5}>TA 5</MenuItem>
-            <MenuItem value={6}>TA 6</MenuItem>
-            <MenuItem value={7}>TA 7</MenuItem>
-            <MenuItem value={8}>TA 8</MenuItem>
-            <MenuItem value={9}>TA 9</MenuItem>
-            <MenuItem value={10}>TA 10</MenuItem>
-            <MenuItem value={11}>TA 11</MenuItem>
-            <MenuItem value={12}>TA 12</MenuItem>
+            <MenuItem value={0}>{t('at_n', { number: 0 })}</MenuItem>
+            <MenuItem value={1}>{t('at_n', { number: 1 })}</MenuItem>
+            <MenuItem value={2}>{t('at_n', { number: 2 })}</MenuItem>
+            <MenuItem value={3}>{t('at_n', { number: 3 })}</MenuItem>
+            <MenuItem value={4}>{t('at_n', { number: 4 })}</MenuItem>
+            <MenuItem value={5}>{t('at_n', { number: 5 })}</MenuItem>
+            <MenuItem value={6}>{t('at_n', { number: 6 })}</MenuItem>
+            <MenuItem value={7}>{t('at_n', { number: 7 })}</MenuItem>
+            <MenuItem value={8}>{t('at_n', { number: 8 })}</MenuItem>
+            <MenuItem value={9}>{t('at_n', { number: 9 })}</MenuItem>
+            <MenuItem value={10}>{t('at_n', { number: 10 })}</MenuItem>
+            <MenuItem value={11}>{t('at_n', { number: 11 })}</MenuItem>
+            <MenuItem value={12}>{t('at_n', { number: 12 })}</MenuItem>
           </Select>
         </Grid>
         <Grid item xs={12}>
           <RadioGroup
-            aria-label="Gender"
-            name="gender1"
+            aria-label="Consecutive defense"
+            name="consecutive_defense"
             className={classes.rGroup}
             value={data.consecutiveDefense}
             onChange={handleConsecutiveDefenseChange}
           >
-            <FormControlLabel value="1" control={<Radio />} label="1º" />
-            <FormControlLabel value="2" control={<Radio />} label="2º" />
-            <FormControlLabel value="3" control={<Radio />} label="3º" />
-            <FormControlLabel value="4" control={<Radio />} label="4º" />
-            <FormControlLabel value="5" control={<Radio />} label="5º+" />
+            <FormControlLabel value="1" control={<Radio />} label={t('first')} />
+            <FormControlLabel value="2" control={<Radio />} label={t('second')} />
+            <FormControlLabel value="3" control={<Radio />} label={t('third')} />
+            <FormControlLabel value="4" control={<Radio />} label={t('fourth')} />
+            <FormControlLabel value="5" control={<Radio />} label={t('fifth_plus')} />
           </RadioGroup>
         </Grid>
       </Grid>
