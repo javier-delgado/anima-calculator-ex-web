@@ -4,11 +4,13 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import './index.css';
 import './i18n';
+import * as Sentry from '@sentry/browser';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './redux/configureStore';
 
 const { store, persistor } = configureStore();
+if (process.env.NODE_ENV !== 'development') Sentry.init({ dsn: process.env.SENTRY_DSN });
 
 ReactDOM.render(
   <Provider store={store}>
