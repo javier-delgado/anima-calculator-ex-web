@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
 const ColorButton = withStyles(() => ({
   root: {
     color: '#FFF',
-    backgroundImage: 'linear-gradient(to right, #BA4C17 , #831804)',
+    backgroundColor: '#B11016',
   },
 }))(Button);
 
