@@ -1,7 +1,7 @@
 import { sumBy, max, min, ceil } from 'lodash';
 import i18n from '../../i18n';
 
-import { UPDATE_ATTACKER_DATA, UPDATE_DEFENDER_DATA } from './calculator.constants';
+import { UPDATE_ATTACKER_DATA, UPDATE_DEFENDER_DATA, CLEAR_DATA } from './calculator.constants';
 import { ATTACK_MODIFIERS, DEFENSE_MODIFIERS } from '../../domain/modifiers.constants';
 
 const CONSECUTIVE_DEFENSE_PENALTIES = {
@@ -59,6 +59,9 @@ const calculatorReducer = (state = initialState, action) => {
           totalDefense: totalDefense(newDefenderData),
         },
       };
+    }
+    case CLEAR_DATA: {
+      return initialState;
     }
     default:
       return state;

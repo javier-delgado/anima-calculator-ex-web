@@ -169,5 +169,6 @@
     "surprise": "Surprise",
     "flight_15_block": "Flight 15 (Block)",
     "flight_15_dodge": "Flight 15 (Dodge)"
-  }
+  },
+  "clear_inputs": "Clear all inputs"
 }

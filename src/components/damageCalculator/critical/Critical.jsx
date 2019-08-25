@@ -1,8 +1,9 @@
 import React, { memo, useState, useEffect } from 'react';
-import { Box, Typography, Grid, Divider } from '@material-ui/core';
+import { Box, Typography, Grid, Divider, Tooltip, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import ClearIcon from '@material-ui/icons/Clear';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -14,12 +15,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  titles: {
+  top: {
     textAlign: 'center',
     color: '#FFF',
     backgroundImage: 'linear-gradient(to right, #BA4C17 , #831804)',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
+    display: 'flex',
+    position: 'relative',
   },
   statInput: {
     width: '100%',
@@ -28,23 +31,34 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     width: '240px',
   },
+  clearButton: {
+    position: 'absolute',
+    right: 0,
+    marginTop: 1,
+    color: 'white',
+  },
+  titles: {
+    margin: '0 auto',
+  },
 }));
 
 const diceRoller = new DiceRoller({ fumbleEnabled: false, openRollEnabled: false });
 
+const initialState = {
+  attackerRoll: 0,
+  defenderRoll: 0,
+  resFis: 0,
+  damage: 0,
+  txtMainHeader: '-',
+  txtSecondaryHeader: '-',
+  txtCritLevel: '',
+  txtTotalResistance: '',
+};
+
 const Attacker = ({ suggestedDamage }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [state, setState] = useState({
-    attackerRoll: 0,
-    defenderRoll: 0,
-    resFis: 0,
-    damage: 0,
-    txtMainHeader: '-',
-    txtSecondaryHeader: '-',
-    txtCritLevel: '',
-    txtTotalResistance: '',
-  });
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
     setState(s => ({ ...s, damage: suggestedDamage, attackerRoll: 0, defenderRoll: 0, resFis: 0 }));
@@ -63,6 +77,8 @@ const Attacker = ({ suggestedDamage }) => {
   const handleStateChange = which => (newValue) => {
     setState({ ...state, [which]: newValue });
   };
+
+  const handleClearData = () => setState(initialState);
 
   const composeText = () => {
     const critLevel = state.damage + state.attackerRoll;
@@ -98,9 +114,16 @@ const Attacker = ({ suggestedDamage }) => {
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.titles}>
-        <Typography>{state.txtSecondaryHeader}</Typography>
-        <Typography variant="h5">{state.txtMainHeader}</Typography>
+      <Box className={classes.top}>
+        <Box className={classes.titles}>
+          <Typography>{state.txtSecondaryHeader}</Typography>
+          <Typography variant="h5">{state.txtMainHeader}</Typography>
+        </Box>
+        <Tooltip title={t('clear_inputs')} placement="bottom">
+          <IconButton aria-label="Clear" className={classes.clearButton} color="inherit" onClick={handleClearData}>
+            <ClearIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Grid container spacing={2} className={classes.inputGrid}>
         <Grid item xs={12}>

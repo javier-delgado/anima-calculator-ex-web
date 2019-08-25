@@ -169,5 +169,6 @@
     "surprise": "Sorpresa",
     "flight_15_block": "Vuelo tipo 15 (Parada)",
     "flight_15_dodge": "Vuelo tipo 15 (Esquiva)"
-  }
+  },
+  "clear_inputs": "Limpiar campos"
 }
