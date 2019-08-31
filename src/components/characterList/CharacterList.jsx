@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     minWidth: 650,
   },
   initiativeCell: {
-    background: '#F8F8F8',
+    background: 'rgba(0, 0, 0, 0.04)',
   },
 }));
 

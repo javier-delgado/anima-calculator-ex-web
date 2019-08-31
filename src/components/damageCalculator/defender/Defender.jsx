@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Select, Grid, MenuItem, Typography, OutlinedInput, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
+import { Box, Select, Grid, MenuItem, OutlinedInput, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -31,6 +31,16 @@ const useStyles = makeStyles(theme => ({
   rGroup: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  defenseTitle: {
+    fontFamily: 'marigold',
+    fontSize: '2.4em',
+    color: '#2F366A',
+    marginRight: '0.2em',
+  },
+  title: {
+    marginTop: '-0.6em',
+    marginBottom: '1em',
   },
 }));
 
@@ -69,15 +79,17 @@ const Defender = ({ data, updateDefenderData }) => {
   const defenseFumbled = () => data.fumbleLevel > 0;
 
   const composeDefenseText = () => {
-    let text = t('defense_value', { value: data.totalDefense });
+    let text = `${data.totalDefense}`;
     if (defenseFumbled()) text = text.concat(' ').concat(t('fumble_level_', { level: data.fumbleLevel }));
     return text;
   };
 
   return (
     <Box className={classes.root}>
-      <Typography gutterBottom>{composeDefenseText()}</Typography>
-      <br />
+      <div className={classes.title}>
+        <span className={classes.defenseTitle}>{t('defense')}</span>
+        <span>{composeDefenseText()}</span>
+      </div>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <CharacterStatInput

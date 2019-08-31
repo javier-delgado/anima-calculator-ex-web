@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     fontSize: 14,
   },
   initiativeCell: {
-    backgroundColor: '#F8F8F8',
+    background: 'rgba(0, 0, 0, 0.04)',
   },
   naturaSelect: {
     width: '100%',

@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Paper, Typography, IconButton, Tooltip } from '@material-ui/core';
 import { connect } from 'react-redux';
-import ClearIcon from '@material-ui/icons/Clear';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -32,8 +32,18 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     height: '100%',
   },
+  left: {
+    background: 'url("card-background.jpg")',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  },
   right: {
     marginLeft: theme.spacing(2),
+    background: 'url("card-background.jpg")',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
   },
   clearButton: {
     position: 'absolute',
@@ -52,7 +62,7 @@ const DamageCalculator = ({ mainText, secondaryText, finalDamage, clearData }) =
 
   return (
     <Box className={classes.root}>
-      <Paper>
+      <Paper className={classes.left}>
         <Box className={classes.top}>
           <Box className={classes.titles}>
             <Typography>{secondaryText}</Typography>
@@ -60,7 +70,7 @@ const DamageCalculator = ({ mainText, secondaryText, finalDamage, clearData }) =
           </Box>
           <Tooltip title={t('clear_inputs')} placement="bottom">
             <IconButton aria-label="Clear" className={classes.clearButton} color="inherit" onClick={clearData}>
-              <ClearIcon />
+              <DeleteSweepIcon />
             </IconButton>
           </Tooltip>
         </Box>

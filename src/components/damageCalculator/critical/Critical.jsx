@@ -3,7 +3,7 @@ import { Box, Typography, Grid, Divider, Tooltip, IconButton } from '@material-u
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import ClearIcon from '@material-ui/icons/Clear';
+import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 
 import CharacterStatInput from '../../characterStatInput/CharacterStatInput';
 import DiceRoller from '../../../domain/diceRoller';
@@ -39,6 +39,22 @@ const useStyles = makeStyles(theme => ({
   },
   titles: {
     margin: '0 auto',
+  },
+  attackSubtitle: {
+    fontFamily: 'marigold',
+    fontSize: '2.4em',
+    color: '#B11016',
+    marginRight: '0.2em',
+  },
+  defenseSubtitle: {
+    fontFamily: 'marigold',
+    fontSize: '2.4em',
+    color: '#2F366A',
+    marginRight: '0.2em',
+  },
+  subtitle: {
+    marginTop: '-0.6em',
+    marginBottom: '-0.6em',
   },
 }));
 
@@ -121,13 +137,14 @@ const Attacker = ({ suggestedDamage }) => {
         </Box>
         <Tooltip title={t('clear_inputs')} placement="bottom">
           <IconButton aria-label="Clear" className={classes.clearButton} color="inherit" onClick={handleClearData}>
-            <ClearIcon />
+            <DeleteSweepIcon />
           </IconButton>
         </Tooltip>
       </Box>
       <Grid container spacing={2} className={classes.inputGrid}>
-        <Grid item xs={12}>
-          {t('attack_value', { value: state.txtCritLevel })}
+        <Grid item xs={12} className={classes.subtitle}>
+          <span className={classes.attackSubtitle}>{t('attack')}</span>
+          <span>{state.txtCritLevel}</span>
         </Grid>
         <Grid item xs={12}>
           <CharacterStatInput
@@ -150,8 +167,9 @@ const Attacker = ({ suggestedDamage }) => {
         <Grid item xs={12}>
           <Divider variant="middle" />
         </Grid>
-        <Grid item xs={12}>
-          {t('defense_value', { value: state.txtTotalResistance })}
+        <Grid item xs={12} className={classes.subtitle}>
+          <span className={classes.defenseSubtitle}>{t('defense')}</span>
+          <span>{state.txtTotalResistance}</span>
         </Grid>
         <Grid item xs={12}>
           <CharacterStatInput

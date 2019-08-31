@@ -32,6 +32,10 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     overflow: 'hidden',
     marginBottom: theme.spacing(1),
+    background: 'url("card-background.jpg")',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
   },
   bottom: {
     display: 'flex',

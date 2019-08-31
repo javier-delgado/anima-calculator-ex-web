@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -30,6 +30,16 @@ const useStyles = makeStyles(theme => ({
   },
   inputGrid: {
     marginBottom: 42,
+  },
+  attackTitle: {
+    fontFamily: 'marigold',
+    fontSize: '2.4em',
+    color: '#B11016',
+    marginRight: '0.2em',
+  },
+  title: {
+    marginTop: '-0.6em',
+    marginBottom: '1em',
   },
 }));
 
@@ -66,15 +76,17 @@ const Attacker = ({ data, updateAttackerData }) => {
   const attackerFumbled = () => data.fumbleLevel > 0;
 
   const composeAttackText = () => {
-    let text = t('attack_value', { value: data.totalAttack });
+    let text = `${data.totalAttack}`;
     if (attackerFumbled()) text = text.concat(` (nvl pifia: ${data.fumbleLevel})`);
     return text;
   };
 
   return (
     <Box className={classes.root}>
-      <Typography gutterBottom>{composeAttackText()}</Typography>
-      <br />
+      <div className={classes.title}>
+        <span className={classes.attackTitle}>{t('attack')}</span>
+        <span>{composeAttackText()}</span>
+      </div>
       <Grid container spacing={2} className={classes.inputGrid}>
         <Grid item xs={6}>
           <CharacterStatInput

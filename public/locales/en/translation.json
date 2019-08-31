@@ -171,5 +171,7 @@
     "flight_15_dodge": "Flight 15 (Dodge)"
   },
   "clear_inputs": "Clear all inputs",
-  "deselect_all": "Deselect all"
+  "deselect_all": "Deselect all",
+  "attack": "Attack",
+  "defense": "Defense"
 }

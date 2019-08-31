@@ -171,5 +171,7 @@
     "flight_15_dodge": "Vuelo tipo 15 (Esquiva)"
   },
   "clear_inputs": "Limpiar campos",
-  "deselect_all": "Deseleccionar todo"
+  "deselect_all": "Deseleccionar todo",
+  "attack": "Ataque",
+  "defense": "Defensa"
 }
