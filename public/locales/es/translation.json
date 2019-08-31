@@ -35,7 +35,7 @@
   "initiative": "Iniciativa",
   "no": "No",
   "yes": "Sí",
-  "attack_value": "Ataque {{value}}",
+  "attack_value": "Ataque ({{value}})",
   "attack_roll": "Tirada de ataque",
   "fumble_level": "Nivel de pifia",
   "base_attack": "Ataque base",
@@ -170,5 +170,6 @@
     "flight_15_block": "Vuelo tipo 15 (Parada)",
     "flight_15_dodge": "Vuelo tipo 15 (Esquiva)"
   },
-  "clear_inputs": "Limpiar campos"
+  "clear_inputs": "Limpiar campos",
+  "deselect_all": "Deseleccionar todo"
 }

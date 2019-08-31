@@ -64,6 +64,8 @@ const Defender = ({ data, updateDefenderData }) => {
     updateDefenderData({ modifiers: newModifiers });
   };
 
+  const handleModifierDeselectAll = () => updateDefenderData({ modifiers: [] });
+
   const defenseFumbled = () => data.fumbleLevel > 0;
 
   const composeDefenseText = () => {
@@ -142,7 +144,7 @@ const Defender = ({ data, updateDefenderData }) => {
         </Grid>
       </Grid>
       <br />
-      <ModifiersList modifiers={DEFENSE_MODIFIERS} selectedModifiers={data.modifiers} onSelect={handleModifierTogle} />
+      <ModifiersList modifiers={DEFENSE_MODIFIERS} selectedModifiers={data.modifiers} onSelect={handleModifierTogle} onDeselectAll={handleModifierDeselectAll} />
     </Box>
   );
 };

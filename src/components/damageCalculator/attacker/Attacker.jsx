@@ -61,6 +61,8 @@ const Attacker = ({ data, updateAttackerData }) => {
     updateAttackerData({ modifiers: newModifiers });
   };
 
+  const handleModifierDeselectAll = () => updateAttackerData({ modifiers: [] });
+
   const attackerFumbled = () => data.fumbleLevel > 0;
 
   const composeAttackText = () => {
@@ -110,7 +112,7 @@ const Attacker = ({ data, updateAttackerData }) => {
         </Grid>
       </Grid>
       <br />
-      <ModifiersList modifiers={ATTACK_MODIFIERS} selectedModifiers={data.modifiers} onSelect={handleModifierTogle} />
+      <ModifiersList modifiers={ATTACK_MODIFIERS} selectedModifiers={data.modifiers} onSelect={handleModifierTogle} onDeselectAll={handleModifierDeselectAll} />
     </Box>
   );
 };

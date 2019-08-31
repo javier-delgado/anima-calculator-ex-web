@@ -35,7 +35,7 @@
   "initiative": "Initiative",
   "no": "No",
   "yes": "Yes",
-  "attack_value": "Attack {{value}}",
+  "attack_value": "Attack ({{value}})",
   "attack_roll": "Attack roll",
   "fumble_level": "Fumble level",
   "base_attack": "Base attack",
@@ -170,5 +170,6 @@
     "flight_15_block": "Flight 15 (Block)",
     "flight_15_dodge": "Flight 15 (Dodge)"
   },
-  "clear_inputs": "Clear all inputs"
+  "clear_inputs": "Clear all inputs",
+  "deselect_all": "Deselect all"
 }

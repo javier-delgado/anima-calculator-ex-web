@@ -24,7 +24,7 @@ const ColorButton = withStyles(() => ({
   },
 }))(Button);
 
-const ModifiersList = ({ selectedModifiers, modifiers, onSelect }) => {
+const ModifiersList = ({ selectedModifiers, modifiers, onSelect, onDeselectAll }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -75,6 +75,9 @@ const ModifiersList = ({ selectedModifiers, modifiers, onSelect }) => {
         <DialogTitle id="form-dialog-title">{t('modifiers_total', { total: modifiersTotal() })}</DialogTitle>
         {renderList()}
         <DialogActions>
+          <Button onClick={onDeselectAll} color="primary">
+            {t('deselect_all')}
+          </Button>
           <Button onClick={onClose} color="primary">
             {t('ok')}
           </Button>
@@ -86,6 +89,7 @@ const ModifiersList = ({ selectedModifiers, modifiers, onSelect }) => {
 
 ModifiersList.propTypes = {
   onSelect: PropTypes.func.isRequired,
+  onDeselectAll: PropTypes.func.isRequired,
   selectedModifiers: PropTypes.arrayOf(PropTypes.string).isRequired,
   modifiers: PropTypes.shape({}).isRequired,
 };
