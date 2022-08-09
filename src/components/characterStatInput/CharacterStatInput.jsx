@@ -35,9 +35,16 @@ const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, on
   const [statText, setStatText] = useState(initialStatValue === 0 ? '' : initialStatValue);
 
   useEffect(() => {
-    if(statText === '') {
-      setStatText(initialStatValue === 0 ? '' : initialStatValue);
-    }
+    setStatText(previous => {
+      if(previous === '') {
+        if(initialStatValue === 0) {
+          return ''
+        } else {
+          return initialStatValue
+        }
+      }
+      return previous
+    })
   }, [initialStatValue]);
 
   const handleRoll = () => {
