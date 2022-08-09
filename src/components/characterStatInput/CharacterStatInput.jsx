@@ -35,13 +35,20 @@ const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, on
   const [statText, setStatText] = useState(initialStatValue === 0 ? '' : initialStatValue);
 
   useEffect(() => {
-    setStatText(initialStatValue === 0 ? '' : initialStatValue);
+    if(statText === '') {
+      setStatText(initialStatValue === 0 ? '' : initialStatValue);
+    }
   }, [initialStatValue]);
+
+  const handleRoll = () => {
+    setStatText('')
+    onRoll()
+  }
 
   const handleChange = (event) => {
     const cleanText = removeUnwantedChars(event.target.value);
     setStatText(cleanText);
-    const sum = addbits(cleanText);
+    const sum = addbits(event.target.value);
     onStatChange(sum);
   };
 
@@ -73,7 +80,7 @@ const CharacterStatInput = ({ initialStatValue, onStatChange, withRollButton, on
           edge="end"
           size="small"
           aria-label="Roll initiative"
-          onClick={onRoll}
+          onClick={handleRoll}
         >
           <svg xmlns="http://www.w3.org/2000/svg" className={classes.svgIcon} viewBox="0 0 512 512">
             <g transform="translate(0,0)" style={{ touchAction: 'none' }}>

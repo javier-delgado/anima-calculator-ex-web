@@ -69,7 +69,15 @@ const calculatorReducer = (state = initialState, action) => {
 };
 
 const composeText = (attackerData, defenderData) => {
-  const result = totalAttack(attackerData) - totalDefense(defenderData);
+  const attackValue = totalAttack(attackerData);
+  const defenseValue = totalDefense(defenderData);
+
+  
+  if(attackValue === 0 && defenseValue === 0) {
+    return noInputText();
+  }
+
+  const result = attackValue - defenseValue;
   const attackerFumbled = attackerData.fumbleLevel > 0;
   const defenderFumbled = defenderData.fumbleLevel > 0;
 
@@ -93,6 +101,12 @@ const composeText = (attackerData, defenderData) => {
 
   return percentage > 0 ? attackerWinsResult(percentage, damageDealt, attackerData) : defenderWinsResult();
 };
+
+const noInputText = () => ({
+  mainText: '-',
+  secondaryText: '-',
+  finalDamage: 0,
+});
 
 const noCombatText = () => ({
   mainText: i18n.t('nothing_happens'),
