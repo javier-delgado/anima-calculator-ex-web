@@ -173,5 +173,8 @@
   "clear_inputs": "Limpiar campos",
   "deselect_all": "Deseleccionar todo",
   "attack": "Ataque",
-  "defense": "Defensa"
+  "defense": "Defensa",
+  "migration_title": "Anima calculator no estará más disponible",
+  "migration_explain": "Esta aplicación dejará de estar disponible desde fines de Octubre de 2024. Te recomendamos utilizar Anima Master Toolkit en su lugar",
+  "close": "Cerrar"
 }

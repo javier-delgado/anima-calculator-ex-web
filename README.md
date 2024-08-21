@@ -6,7 +6,7 @@ Make your combats easier in Anima.
 
 ### URL
 
-https://anima-calculator.com
+~~https://anima-calculator.com~~ This app will be no longer available after October 2024. You can use [Anima Master Toolkit](https://amt-v3.web.app/) instead.
 
 ### Android version
 
@@ -15,11 +15,13 @@ https://play.google.com/store/apps/details?id=com.javierdelgado.anima_calculator
 ### Get started
 
 Install dependencies
+
 ```
 yarn install
 ```
 
 Run the webserver
+
 ```
 yarn start
 ```
@@ -27,11 +29,13 @@ yarn start
 #### Electron
 
 To start a development server for electron, run
+
 ```
 yarn electron-dev
 ```
 
 To build the electron packages, run
+
 ```
 yarn electron-pack
 ```

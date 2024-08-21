@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import './App.scss';
 import CssBaseline from '@material-ui/core/CssBaseline';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -12,6 +12,7 @@ import theme from './materialTheme';
 import MobileWarning from './components/mobileWarning';
 // import MainAppBar from './components/mainAppBar/MainAppBar';
 import DamageCalculator from './components/damageCalculator/DamageCalculator';
+import MigrationDialog from './components/migrationDialog/MigrationDialog';
 
 if (process.env.NODE_ENV !== 'development') {
   ReactGA.initialize(process.env.REACT_APP_ANAYLTICS_ID);
@@ -49,6 +50,9 @@ const useStyles = makeStyles(() => ({
 
 function App() {
   const classes = useStyles();
+  const [dialogOpen, setDialogOpen] = useState(true);
+
+  const handleDialogClose = () => setDialogOpen(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -58,6 +62,7 @@ function App() {
         <Container maxWidth="xl" className={classes.container}>
           <Paper className={classes.top}>
             <CharacterList />
+            <MigrationDialog open={dialogOpen} onClose={handleDialogClose} />
           </Paper>
           <Box className={classes.bottom}>
             <DamageCalculator />

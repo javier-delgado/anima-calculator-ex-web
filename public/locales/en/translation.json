@@ -173,5 +173,8 @@
   "clear_inputs": "Clear all inputs",
   "deselect_all": "Deselect all",
   "attack": "Attack",
-  "defense": "Defense"
+  "defense": "Defense",
+  "migration_title": "Anima calculator shut down",
+  "migration_explain": "This app will be shut down by the end of October 2024. We encourage you to use Anima Master Toolkit instead which has more features",
+  "close": "Close"
 }
